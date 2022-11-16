@@ -1,1 +1,16 @@
+Group 1 members:
+Hangyu Zhu, Havan Patel, Victor Yeung, Pejvak Javaheri, Roger Zhao (Scrum Master)
 
+Primary method of communication:
+Discord
+
+Scheduled times for all daily standup meetings:
+Monday: 2:00-2:15 pm
+Tuesday: 2:00-2:15 pm
+Wednesday: 5:00-5:15 pm
+Thursday: 9:45-10:00 am
+Friday: 10:00-10:15 am
+
+Version control:
+GitHub
+https://github.com/Munchypotato/B07-Lab

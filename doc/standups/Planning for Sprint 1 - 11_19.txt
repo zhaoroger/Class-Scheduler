@@ -1,0 +1,25 @@
+﻿Student
+Username
+Password
+Name
+Type
+
+Admin
+Username
+Password
+Name
+Type
+
+Courses
+Name
+Course Code
+Prereqs
+Sessions
+
+1/4: Login UI/Backend 2, 
+Signup UI/Backend 2 - Victor
+2x for Student and Admin and Courses Backend 2 - Hangyu
+2: (Backend) - Later, Student UI 3  - Pejvak
+
+
+5: (Backend) - Later, Admin UI 3 - Roger

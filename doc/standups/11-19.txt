@@ -1,2 +1,4 @@
 
-As a group we discussed our outline and design ideas for the project. We also decided the tasks for the first sprint and split them amongst ourselves based with SCRUM principles. Rough notes attached in another txt file.
+As a group we discussed our outline and design ideas for the project. 
+We also decided the tasks for the first sprint and split them amongst ourselves based with SCRUM principles. 
+Rough notes attached in another txt file.

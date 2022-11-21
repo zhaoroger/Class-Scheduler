@@ -9,3 +9,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Upcoming assignment due
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- started designing login and signup ui
+
+What are you planning on doing today?
+	- nothing
+
+Any impediments or stumbling blocks?
+	- Busy with tests
+	- a bit confused on how to work with firebase and integrate backend in android studio

@@ -1,1 +1,12 @@
 
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- Learn how to connect between Github/Firebase/Android
+  - If the last note is easy, create a plan for the Admin page UI and start implementing it
+
+Any impediments or stumbling blocks?
+	- other courses

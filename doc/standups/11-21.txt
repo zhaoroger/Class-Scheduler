@@ -10,3 +10,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other courses
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- work on signup/login ui
+
+Any impediments or stumbling blocks?
+	- still need to figure out how to implement functionality

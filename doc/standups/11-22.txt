@@ -1,1 +1,10 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Create Student and Admin classes
+
+Any impediments or stumbling blocks?
+	- Unfamiliar with using Android Studio, GitHub, Jira, Firebase Realtime Database

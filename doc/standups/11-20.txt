@@ -21,3 +21,14 @@ What are you planning on doing today?
 Any impediments or stumbling blocks?
 	- Busy with tests
 	- a bit confused on how to work with firebase and integrate backend in android studio
+
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Nothing
+
+Any impediments or stumbling blocks?
+	- Midterm on Nov 21

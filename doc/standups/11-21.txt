@@ -21,3 +21,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- still need to figure out how to implement functionality
+
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Nothing
+
+Any impediments or stumbling blocks?
+	- Currently don't have much time to work on this project
+	- Midterm today

@@ -1,1 +1,13 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Create Account, Student, Admin, StudentAccount, AdminAccount, Course, AllCourses classes
+
+What are you planning on doing today?
+  - Create a Firebase Realtime Database
+	- Write methods to interact with the database (e.g. a method that allows admins to add courses to the database)
+  - Refactor the code I wrote yesterday
+
+Any impediments or stumbling blocks?
+	- Unfamiliar with using Android Studio, GitHub, Jira, Firebase Realtime Database
+  - It seems like I chose the wrong approach to address my user stories yesterday (it makes more sense to store all courses in the realtime database, instead of storing them in the AllCourses class)

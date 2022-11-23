@@ -22,3 +22,15 @@ Any impediments or stumbling blocks?
 	- have not actually added functionality
 	- still trying to figure out firebase
 	- not sure how to use created classes in conjunction with my UI
+	
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Tried learning how to connect Git and Android Studio
+
+What are you planning on doing today?
+	- Continue trying to figure it out
+	- Attempt to make UI for Admin
+
+Any impediments or stumbling blocks?
+	- I don't know how to do anything relevent

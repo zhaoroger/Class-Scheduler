@@ -8,3 +8,17 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Unfamiliar with using Android Studio, GitHub, Jira, Firebase Realtime Database
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- worked on login/signup UI
+
+What are you planning on doing today?
+	- make login/signup UI work
+
+Any impediments or stumbling blocks?
+	- have not actually added functionality
+	- still trying to figure out firebase
+	- not sure how to use created classes in conjunction with my UI

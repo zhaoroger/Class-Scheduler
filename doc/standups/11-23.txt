@@ -11,3 +11,15 @@ What are you planning on doing today?
 Any impediments or stumbling blocks?
 	- Unfamiliar with using Android Studio, GitHub, Jira, Firebase Realtime Database
 	- It seems like I chose the wrong approach to address my user stories yesterday (it makes more sense to store all courses in the realtime database, instead of storing them in the AllCourses class)
+	
+	
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- Finished UI for login and signup
+
+What are you planning on doing today?
+	- Implement user authentication
+
+Any impediments or stumbling blocks?
+	- Using Firebase for the first time is tricky

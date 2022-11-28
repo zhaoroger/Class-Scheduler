@@ -23,3 +23,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Using Firebase for the first time is tricky
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- watched a few youtube videos on dynamically adding and removing items to android list view
+
+What are you planning on doing today?
+	- make a basic back end for the dynamic list view
+
+Any impediments or stumbling blocks?
+	- other course work

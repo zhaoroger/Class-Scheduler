@@ -1,2 +1,15 @@
 Roger Zhao
 -Home wifi still down. Ability to work is limited
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- worked on the tabbed fragment using ViewPager
+
+What are you planning on doing today?
+	- apparently ViewPager is deprecated. I wanna find out if I can make it work with ViewPager2
+
+Any impediments or stumbling blocks?
+	- other course work
+  - it seems I am confused about fragments vs activities

@@ -1,2 +1,15 @@
 Roger Zhao
 -Home wifi down. Ability to work is limited
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- make a tabbed fragment to switch between course view and student timeline
+
+Any impediments or stumbling blocks?
+	- other course work
+  - the view is either empty or the app crashes when it enters the student activity

@@ -1,1 +1,12 @@
 
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- I made the tabbed activity work
+  - I figured out how to move between activities
+
+What are you planning on doing today?
+	- make the UI nicer and clean up the singleton adapter used to pass info between the rest of the app and the student module
+
+Any impediments or stumbling blocks?
+	- other course work

@@ -1,1 +1,10 @@
+Name: Pejvak Javaheri
 
+What have you done since yesterday?
+	- made the dynamic add and remove methods via item holds and long holds (long clicks on an item)
+
+What are you planning on doing today?
+	- nothing
+
+Any impediments or stumbling blocks?
+	- other course work

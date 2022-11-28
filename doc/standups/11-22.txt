@@ -33,4 +33,15 @@ What are you planning on doing today?
 	- Attempt to make UI for Admin
 
 Any impediments or stumbling blocks?
-	- I don't know how to do anything relevent
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- looked into dynamic list
+
+What are you planning on doing today?
+	- design a basic student module
+
+Any impediments or stumbling blocks?
+	- new to android

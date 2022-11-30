@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +19,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     TextView registerTransition;
     EditText Username, Password;
     Button loginButton;
     String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progress;
+    Switch isAdmin;
 
     FirebaseAuth auth;
     FirebaseUser user;
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         registerTransition = findViewById(R.id.registerTransition);
         Username = findViewById(R.id.Username);
         Password = findViewById(R.id.Password);
         loginButton = findViewById(R.id.loginButton);
+        isAdmin = findViewById(R.id.userTypeSwitch);
         progress = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         registerTransition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
 
@@ -76,19 +79,31 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         progress.dismiss();
-                        sendToAccount();
-                        Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT);
+                        if (isAdmin.isChecked()) {
+                            sendToAdminAcct();
+                        } else {
+                            sendToStudentAcct();
+                        }
+                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                     } else {
                         progress.dismiss();
-                        Toast.makeText(MainActivity.this, "" + task.getException(), Toast.LENGTH_SHORT);
+                        Toast.makeText(LoginActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
 
-    private void sendToAccount(){
-        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+    private void sendToStudentAcct(){
+        // replace HomeActivity with corresponding activity
+        Intent intent = new Intent(LoginActivity.this, StudentAccount.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void sendToAdminAcct(){
+        // replace HomeActivity with corresponding activity
+        Intent intent = new Intent(LoginActivity.this, AdminAccount.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

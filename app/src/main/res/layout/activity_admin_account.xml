@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".AdminAccount">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="183dp"
         android:layout_height="81dp"
-        android:text="Home"
+        android:text="Admin"
         android:textColor="@color/black"
         android:textSize="60sp"
         android:textStyle="bold"

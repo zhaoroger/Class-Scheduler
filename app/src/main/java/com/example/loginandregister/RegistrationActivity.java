@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +26,8 @@ public class RegistrationActivity extends AppCompatActivity {
     Button registerButton;
     String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progress;
+    Switch isAdmin;
+
 
     FirebaseAuth auth;
     FirebaseUser user;
@@ -39,6 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Password = findViewById(R.id.Password);
         ConfirmPassword = findViewById(R.id.ConfirmPassword);
         registerButton = findViewById(R.id.registerButton);
+        isAdmin = findViewById(R.id.userTypeSwitch);
         progress = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -46,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
         loginTransition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
             }
         });
 
@@ -80,19 +83,31 @@ public class RegistrationActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         progress.dismiss();
-                        Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT);
+                        Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                        if (isAdmin.isChecked()) {
+                            sendToAdminAcct();
+                        } else {
+                            sendToStudentAcct();
+                        }
                     } else {
                         progress.dismiss();
-                        sendToAccount();
-                        Toast.makeText(RegistrationActivity.this, ""+task.getException(), Toast.LENGTH_SHORT);
+                        Toast.makeText(RegistrationActivity.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
 
-    private void sendToAccount(){
-        Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+    private void sendToStudentAcct(){
+        // replace HomeActivity with corresponding activity
+        Intent intent = new Intent(RegistrationActivity.this, StudentAccount.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void sendToAdminAcct(){
+        // replace HomeActivity with corresponding activity
+        Intent intent = new Intent(RegistrationActivity.this, AdminAccount.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

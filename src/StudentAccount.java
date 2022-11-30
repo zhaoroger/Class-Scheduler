@@ -1,39 +1,45 @@
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 final class StudentAccount extends Account implements Student {
-    LinkedHashSet<Course> courses = new LinkedHashSet<Course>();
+    List<String> courses = new ArrayList<String>();
+
+    public StudentAccount() {
+    }
 
     public StudentAccount(String username, String password, String name) {
         super(username, password, name);
     }
 
-    public StudentAccount(String username, String password, String name, LinkedHashSet<Course> courses) {
+    public StudentAccount(String username, String password, String name, List<String> courses) {
         super(username, password, name);
         this.courses = courses;
     }
 
     @Override
-    public LinkedHashSet<Course> getCourses() {
+    public List<String> getCourses() {
         return courses;
     }
 
     @Override
-    public void setCourses(LinkedHashSet<Course> courses) {
+    public void setCourses(List<String> courses) {
         this.courses = courses;
     }
 
     @Override
-    public void addCourse(Course course) {
-        courses.add(course);
+    public void addCourse(String course) {
+        if (!courses.contains(course)) {
+            courses.add(course);
+        }
     }
 
     @Override
-    public void removeCourse(Course course) {
+    public void removeCourse(String course) {
         courses.remove(course);
     }
 
     @Override
-    public void generateCourseTimeline(LinkedHashSet<Course> courses) {
+    public void generateCourseTimeline(List<String> courses) {
         // TODO
     }
 }

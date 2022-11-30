@@ -1,13 +1,13 @@
-import java.util.LinkedHashSet;
+import java.util.List;
 
 public interface Student {
-    public LinkedHashSet<Course> getCourses();
+    public List<String> getCourses();
 
-    public void setCourses(LinkedHashSet<Course> courses);
+    public void setCourses(List<String> courses);
 
-    public void addCourse(Course course);
+    public void addCourse(String course);
 
-    public void removeCourse(Course course);
+    public void removeCourse(String course);
 
-    public void generateCourseTimeline(LinkedHashSet<Course> courses);
+    public void generateCourseTimeline(List<String> courses);
 }

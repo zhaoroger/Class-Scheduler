@@ -3,6 +3,9 @@ abstract class Account {
     String password;
     String name;
 
+    public Account() {
+    }
+
     public Account(String username, String password, String name) {
         this.username = username;
         this.password = password;

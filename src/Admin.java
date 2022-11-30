@@ -1,8 +1,8 @@
-import java.util.HashSet;
+import java.util.List;
 
 public interface Admin {
 
-    public HashSet<Course> viewCourses();
+    public List<Course> getAllCourses();
 
     public void addCourse(Course course);
 

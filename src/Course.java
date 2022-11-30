@@ -1,4 +1,5 @@
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Course {
     private String name;
@@ -6,7 +7,11 @@ public final class Course {
     private boolean fall;
     private boolean winter;
     private boolean summer;
-    private HashSet<Course> prerequisites = new HashSet<Course>();
+    private List<String> prerequisites = new ArrayList<String>();
+
+    // No argument constructor
+    public Course() {
+    }
 
     // Name and course code constructor
     public Course(String name, String courseCode) {
@@ -24,7 +29,7 @@ public final class Course {
     }
 
     // Name, course code and prerequisites constructor
-    public Course(String name, String courseCode, HashSet<Course> prerequisites) {
+    public Course(String name, String courseCode, List<String> prerequisites) {
         this.name = name;
         this.courseCode = courseCode;
         this.prerequisites = prerequisites;
@@ -32,7 +37,7 @@ public final class Course {
 
     // Name, course code, offering sessions, and prerequisites constructor
     public Course(String name, String courseCode, boolean fall, boolean winter, boolean summer,
-            HashSet<Course> prerequisites) {
+                  List<String> prerequisites) {
         this.name = name;
         this.courseCode = courseCode;
         this.fall = fall;
@@ -81,19 +86,19 @@ public final class Course {
         this.summer = summer;
     }
 
-    public HashSet<Course> getPrerequisites() {
+    public List<String> getPrerequisites() {
         return prerequisites;
     }
 
-    public void setPrerequisites(HashSet<Course> prerequisites) {
+    public void setPrerequisites(List<String> prerequisites) {
         this.prerequisites = prerequisites;
     }
 
-    protected void addPrerequisite(Course prerequisite) {
+    protected void addPrerequisite(String prerequisite) {
         prerequisites.add(prerequisite);
     }
 
-    protected void removePrerequisite(Course prerequisite) {
+    protected void removePrerequisite(String prerequisite) {
         prerequisites.remove(prerequisite);
     }
 

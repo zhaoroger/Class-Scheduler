@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border">
+
+    <TableLayout
+        android:id="@+id/tableLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20px">
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course: "
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/cname"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:textSize="13sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="402dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20px">
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Code:"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/ccode"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:textSize="13sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20px">
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offering Sessions: "
+                android:textSize="15dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <CheckBox
+                android:id="@+id/fallcheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:text="Fall" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <CheckBox
+                android:id="@+id/wintercheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:text="Winter" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+
+            <CheckBox
+                android:id="@+id/summercheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Summer" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_marginBottom="20px">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prerequisites:"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/cprereqs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:textSize="13sp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2">
+
+        <Button
+            android:id="@+id/savebutton"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:text="Save Changes" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:text="Delete Course" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

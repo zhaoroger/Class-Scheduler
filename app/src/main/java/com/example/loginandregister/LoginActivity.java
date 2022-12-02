@@ -1,6 +1,5 @@
 package com.example.loginandregister;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -13,15 +12,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Presenter presenter;
+    private LoginPresenter presenter;
     TextView registerTransition;
     Button loginButton;
     EditText Username, Password;
@@ -43,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         progress = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        presenter = new Presenter(new Model(), this);
+        presenter = new LoginPresenter(new LoginModel(), this);
 
         registerTransition.setOnClickListener(new View.OnClickListener() {
             @Override

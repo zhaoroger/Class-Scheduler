@@ -2,11 +2,11 @@ package com.example.loginandregister;
 
 import java.util.List;
 
-public class Model {
+public class LoginModel {
     List<String> studentNames;
     List<String> adminNames;
 
-    public Model(){
+    public LoginModel(){
         List<StudentAccount> students = RealtimeDatabase.getAllStudents();
         List<AdminAccount> admins = RealtimeDatabase.getAllAdmins();
         for(StudentAccount student : students) {
@@ -30,12 +30,4 @@ public class Model {
         }
         return false;
     }
-
-    public boolean isRegistered(String name){
-        if(adminNames.contains(name) || studentNames.contains(name)) {
-            return true;
-        }
-        return false;
-    }
-
 }

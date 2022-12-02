@@ -1,19 +1,16 @@
 package com.example.loginandregister;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
-public class Presenter {
-    private Model model;
+public class LoginPresenter {
+    private LoginModel model;
     private LoginActivity view;
 
-    public Presenter(Model model, LoginActivity view){
+    public LoginPresenter(LoginModel model, LoginActivity view){
         this.model = model;
         this.view = view;
     }

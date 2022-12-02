@@ -6,7 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
-public class LoginPresenter {
+public class LoginPresenter implements Contract.Presenter {
     private LoginModel model;
     private LoginActivity view;
 
@@ -15,7 +15,8 @@ public class LoginPresenter {
         this.view = view;
     }
 
-    public void Login() {
+    @Override
+    public void Authenticate() {
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String username = view.getUsername();
         String password = view.getPassword();

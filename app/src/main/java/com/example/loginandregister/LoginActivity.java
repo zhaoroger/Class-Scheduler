@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Contract.View{
 
     private LoginPresenter presenter;
     TextView registerTransition;
@@ -51,21 +51,24 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.Login();
+                presenter.Authenticate();
             }
         });
     }
 
+    @Override
     public String getUsername(){
         EditText Username = findViewById(R.id.Username);
         return Username.getText().toString();
     }
 
+    @Override
     public String getPassword(){
         EditText Password = findViewById(R.id.Password);
         return Password.getText().toString();
     }
 
+    @Override
     public void sendToStudentAcct(){
         // replace HomeActivity with corresponding activity
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
     public void sendToAdminAcct(){
         // replace HomeActivity with corresponding activity
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -80,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
     public void displayMessage(String message){
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }

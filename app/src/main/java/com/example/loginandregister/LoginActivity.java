@@ -21,13 +21,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private Presenter presenter;
     TextView registerTransition;
-    EditText Username, Password;
     Button loginButton;
-    String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    EditText Username, Password;
     ProgressDialog progress;
     Switch isAdmin;
-
     FirebaseAuth auth;
     FirebaseUser user;
 
@@ -37,13 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         registerTransition = findViewById(R.id.registerTransition);
+        loginButton = findViewById(R.id.loginButton);
         Username = findViewById(R.id.Username);
         Password = findViewById(R.id.Password);
-        loginButton = findViewById(R.id.loginButton);
         isAdmin = findViewById(R.id.userTypeSwitch);
         progress = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        presenter = new Presenter(new Model(), this);
 
         registerTransition.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,56 +55,37 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Login();
+                presenter.Login();
             }
         });
     }
 
-    private void Login() {
-        String username = Username.getText().toString();
-        String password = Password.getText().toString();
-
-        if(!username.matches(validEmail)){
-            Username.setError("Please enter a valid e-mail address");
-        } else if (password.isEmpty()) {
-            Password.setError("Please enter valid password.");
-        } else {
-            progress.setMessage("Please wait...");
-            progress.setTitle("Login");
-            progress.setCanceledOnTouchOutside(false);
-            progress.show();
-
-            auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        progress.dismiss();
-                        if (isAdmin.isChecked()) {
-                            sendToAdminAcct();
-                        } else {
-                            sendToStudentAcct();
-                        }
-                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        progress.dismiss();
-                        Toast.makeText(LoginActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
+    public String getUsername(){
+        EditText Username = findViewById(R.id.Username);
+        return Username.getText().toString();
     }
 
-    private void sendToStudentAcct(){
+    public String getPassword(){
+        EditText Password = findViewById(R.id.Password);
+        return Password.getText().toString();
+    }
+
+    public void sendToStudentAcct(){
         // replace HomeActivity with corresponding activity
-        Intent intent = new Intent(LoginActivity.this, StudentAccount.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    private void sendToAdminAcct(){
+    public void sendToAdminAcct(){
         // replace HomeActivity with corresponding activity
-        Intent intent = new Intent(LoginActivity.this, AdminAccount.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+    public void displayMessage(String message){
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
 }

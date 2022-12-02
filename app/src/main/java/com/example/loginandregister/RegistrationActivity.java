@@ -21,8 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    RealtimeDatabase database;
     TextView loginTransition;
-    EditText Username, Password, ConfirmPassword;
+    EditText Username, Password, ConfirmPassword, name;
     Button registerButton;
     String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progress;
@@ -39,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
         loginTransition = findViewById(R.id.loginTransition);
         Username = findViewById(R.id.Username);
         Password = findViewById(R.id.Password);
+        name = findViewById(R.id.name);
         ConfirmPassword = findViewById(R.id.ConfirmPassword);
         registerButton = findViewById(R.id.registerButton);
         isAdmin = findViewById(R.id.userTypeSwitch);
@@ -65,6 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
         String username = Username.getText().toString();
         String password = Password.getText().toString();
         String cPassword = ConfirmPassword.getText().toString();
+        String Name = name.getText().toString();
 
         if(!username.matches(validEmail)){
             Username.setError("Please enter a valid e-mail address");
@@ -85,8 +88,10 @@ public class RegistrationActivity extends AppCompatActivity {
                         progress.dismiss();
                         Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         if (isAdmin.isChecked()) {
+                            database.addAdmin(new AdminAccount(username, password, Name));
                             sendToAdminAcct();
                         } else {
+                            database.addStudent(new StudentAccount(username, password, Name));
                             sendToStudentAcct();
                         }
                     } else {
@@ -100,14 +105,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void sendToStudentAcct(){
         // replace HomeActivity with corresponding activity
-        Intent intent = new Intent(RegistrationActivity.this, StudentAccount.class);
+        Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
     private void sendToAdminAcct(){
         // replace HomeActivity with corresponding activity
-        Intent intent = new Intent(RegistrationActivity.this, AdminAccount.class);
+        Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

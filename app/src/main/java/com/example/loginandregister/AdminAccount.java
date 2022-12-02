@@ -1,14 +1,31 @@
 package com.example.loginandregister;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.List;
 
-import android.os.Bundle;
+final class AdminAccount extends Account implements Admin {
 
-public class AdminAccount extends AppCompatActivity {
+    public AdminAccount(String username, String password, String name) {
+        super(username, password, name);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_account);
+    public List<Course> getAllCourses() {
+        return RealtimeDatabase.getAllCourses();
+    }
+
+    @Override
+    public void addCourse(Course course) {
+        RealtimeDatabase.addCourse(course);
+    }
+
+    @Override
+    public void removeCourse(Course course) {
+        RealtimeDatabase.addCourse(course);
+    }
+
+    @Override
+    public void editCourse(Course course) {
+        // TODO
+        RealtimeDatabase.editCourse(course);
     }
 }

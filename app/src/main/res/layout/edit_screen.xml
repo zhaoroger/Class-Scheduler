@@ -17,58 +17,62 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20px">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Course: "
-                android:textSize="15dp" />
+                android:text="@string/course"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/cname"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="LabelFor,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </TableRow>
 
         <TableRow
             android:layout_width="402dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20px">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Course Code:"
-                android:textSize="15dp" />
+                android:text="@string/course_code"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/ccode"
                 android:layout_width="216dp"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20px">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/textView25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Offering Sessions: "
-                android:textSize="15dp" />
+                android:text="@string/offering_sessions"
+                android:textSize="15sp" />
 
         </TableRow>
 
@@ -81,8 +85,8 @@
                 android:id="@+id/fallcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20px"
-                android:text="Fall" />
+                android:layout_marginBottom="20dp"
+                android:text="@string/fall" />
         </TableRow>
 
         <TableRow
@@ -94,8 +98,8 @@
                 android:id="@+id/wintercheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20px"
-                android:text="Winter" />
+                android:layout_marginBottom="20dp"
+                android:text="@string/winter" />
         </TableRow>
 
         <TableRow
@@ -108,29 +112,31 @@
                 android:id="@+id/summercheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Summer" />
+                android:text="@string/summer" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="128dp"
-            android:layout_marginBottom="20px">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Prerequisites:"
-                android:textSize="15dp" />
+                android:text="@string/prerequisites"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/cprereqs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="LabelFor,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         </TableRow>
 
@@ -150,18 +156,18 @@
             android:id="@+id/savebutton"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:text="Save Changes" />
+            android:text="@string/save_changes" />
 
         <Button
             android:id="@+id/delete"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:text="Delete Course" />
+            android:text="@string/delete_course" />
 
         <Button
             android:id="@+id/cancel"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

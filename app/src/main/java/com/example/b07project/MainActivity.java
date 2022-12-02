@@ -1,15 +1,14 @@
 package com.example.b07project;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,44 +17,33 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Course> courseList;
     private RecyclerView recyclerView;
-    private Button addButton;
-    private Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
-        addButton = findViewById(R.id.addbutton);
-        logout = findViewById(R.id.save_signout);
-//        courseList = new ArrayList<Course>(RealtimeDatabase.getAllCourses());
-//        System.out.println(courseList);
-//        System.out.println("test");
-        courseList = new ArrayList<Course>();
+        Button addButton = findViewById(R.id.addbutton);
+        Button logout = findViewById(R.id.save_signout);
+        courseList = new ArrayList<>();
         if(getIntent().getParcelableArrayListExtra("newCourseList") == null) {setUserInfo();}
         else {courseList = getIntent().getParcelableArrayListExtra("newCourseList");}
-//        courseList = new ArrayList<Course>(RealtimeDatabase.getAllCourses());
+
         setAdapter();
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AddWindow.class);
-                intent.putParcelableArrayListExtra("courseList", courseList);
-                view.getContext().startActivity(intent);
-                finish();
-            }
+        addButton.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), AddWindow.class);
+            intent.putParcelableArrayListExtra("courseList", courseList);
+            view.getContext().startActivity(intent);
+            finish();
         });
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        logout.setOnClickListener(view -> {
 
 //                Intent intent = new Intent(view.getContext(), *LOGIN ACTIVITY*);
 //                *SAVE courseLIST TO FIREBASE*
 //                view.getContext().startActivity(intent);
 //                finish();
-                Toast myToast = Toast.makeText(getApplicationContext(), "Saved Course List", Toast.LENGTH_SHORT);
-                myToast.show();
-            }
+            Toast myToast = Toast.makeText(getApplicationContext(), "Saved Course List", Toast.LENGTH_SHORT);
+            myToast.show();
         });
     }
 

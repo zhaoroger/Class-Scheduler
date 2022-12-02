@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RealtimeDatabase {
-    private static DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://cscb07-project-851d6-default-rtdb.firebaseio.com/").getReference();
+    private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://cscb07-project-851d6-default-rtdb.firebaseio.com/").getReference();
 
     private RealtimeDatabase() {
     }
@@ -55,15 +55,25 @@ public class RealtimeDatabase {
         // TODO
     }
 
-    public static List<Course> getAllCourses() {
-        List<Course> allCourses = new ArrayList<Course>();
-        DatabaseReference coursesReference = databaseReference.child("courses");
-        ValueEventListener coursesListener = new ValueEventListener() {
+    public static void getAllCourses(ArrayList<Course> courseList) {
+        databaseReference.child("courses").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Course> allCourses = new ArrayList<Course>();
                 for (DataSnapshot courseDataSnapshot : dataSnapshot.getChildren()) {
                     Course course = courseDataSnapshot.getValue(Course.class);
                     allCourses.add(course);
+                }
+
+                for (Course course: allCourses) {
+                    System.out.println("ondatachange allCourse: " + course);
+                }
+
+                courseList.clear();
+                courseList.addAll(allCourses);
+
+                for (Course course: courseList) {
+                    System.out.println("ondatachange courseList: " + course);
                 }
             }
 
@@ -71,9 +81,6 @@ public class RealtimeDatabase {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(null, "Error getting all courses", databaseError.toException());
             }
-        };
-
-        coursesReference.addValueEventListener(coursesListener);
-        return allCourses;
+        });
     }
 }

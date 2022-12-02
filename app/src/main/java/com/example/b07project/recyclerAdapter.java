@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder>{
-    private ArrayList<Course> courseList;
-    private DatabaseReference databaseReference;
-    private Activity activity;
+    private final ArrayList<Course> courseList;
+    private final Activity activity;
 
     public recyclerAdapter(ArrayList<Course> courseList, Activity activity){
         this.courseList = courseList;
@@ -27,24 +22,20 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView coursename;
-        private TextView coursecode;
-        private Button button;
+        private final TextView coursename;
+        private final TextView coursecode;
 
         public MyViewHolder(final View view){
             super(view);
             coursename = view.findViewById(R.id.textView2);
             coursecode = view.findViewById(R.id.course_code);
 
-            view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(),EditWindow.class);
-                    intent.putExtra("course", courseList.get(getAdapterPosition()));
-                    intent.putParcelableArrayListExtra("courseList", courseList);
-                    view.getContext().startActivity(intent);
-                    activity.finish();
-                }
+            view.findViewById(R.id.button).setOnClickListener(view1 -> {
+                Intent intent = new Intent(view1.getContext(),EditWindow.class);
+                intent.putExtra("course", courseList.get(getAdapterPosition()));
+                intent.putParcelableArrayListExtra("courseList", courseList);
+                view1.getContext().startActivity(intent);
+                activity.finish();
             });
         }
     }

@@ -4,20 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.Spanned;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +29,6 @@ public final class EditWindow extends Activity {
     Button cancelButton;
     Button deleteButton;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,23 +36,20 @@ public final class EditWindow extends Activity {
 
         setContentView(R.layout.edit_screen);
 
-        course = (Course) getIntent().getParcelableExtra("course");
+        course = getIntent().getParcelableExtra("course");
         courseList = getIntent().getParcelableArrayListExtra("courseList");
         setText(course);
         courseName = findViewById(R.id.cname);
         courseCode = findViewById(R.id.ccode);
         courseCode = findViewById(R.id.ccode);
-        InputFilter filter = new InputFilter() { //prevents inputting space
-            public CharSequence filter(CharSequence source, int start, int end,
-                                       Spanned dest, int dstart, int dend) {
-                for (int i = start; i < end; i++) {
-                    if (Character.isWhitespace(source.charAt(i))) {
-                        return "";
-                    }
+        //prevents inputting space
+        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
+            for (int i = start; i < end; i++) {
+                if (Character.isWhitespace(source.charAt(i))) {
+                    return "";
                 }
-                return null;
             }
-
+            return null;
         };
         courseCode.setFilters(new InputFilter[] { filter });
         saveButton = findViewById(R.id.savebutton);
@@ -70,103 +60,85 @@ public final class EditWindow extends Activity {
         checkSummer = findViewById(R.id.summercheck);
         prereqText = findViewById(R.id.cprereqs);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean createClass = true;
-                String cc = courseCode.getText().toString();
-                for(int i = 0; i < courseList.size(); i++)
+        saveButton.setOnClickListener(view -> {
+            boolean createClass = true;
+            String cc = courseCode.getText().toString();
+            for(int i = 0; i < courseList.size(); i++)
+            {
+                if(cc.equalsIgnoreCase(courseList.get(i).getCourseCode()) && !cc.equalsIgnoreCase(course.getCourseCode()))
                 {
-                    if(cc.equalsIgnoreCase(courseList.get(i).getCourseCode()) && !cc.toString().equalsIgnoreCase(course.getCourseCode()))
-                    {
-                        Toast myToast = Toast.makeText(getApplicationContext(), "Duplicate Class", Toast.LENGTH_SHORT);
-                        myToast.show();
-                        returnToMain(view);
-                        createClass = false;
-                    }
-                }
-                if(courseName.getText().toString().replaceAll("\\s+", "").equals("") || cc.equals(""))
-                {
-                    Toast myToast = Toast.makeText(getApplicationContext(), "Empty name or course code field", Toast.LENGTH_SHORT);
+                    Toast myToast = Toast.makeText(getApplicationContext(), "Duplicate Class", Toast.LENGTH_SHORT);
                     myToast.show();
                     returnToMain(view);
                     createClass = false;
                 }
-                if(createClass)
-                {
-                    int index = courseList.indexOf(course);
-                    String toast = "";
-                    courseList.get(index).setName(courseName.getText().toString());
-                    courseList.get(index).setCourseCode(cc);
-                    courseList.get(index).setFallOffering(checkFall.isChecked());
-                    courseList.get(index).setWinterOffering(checkWinter.isChecked());
-                    courseList.get(index).setSummerOffering(checkSummer.isChecked());
+            }
+            if(courseName.getText().toString().replaceAll("\\s+", "").equals("") || cc.equals(""))
+            {
+                Toast myToast = Toast.makeText(getApplicationContext(), "Empty name or course code field", Toast.LENGTH_SHORT);
+                myToast.show();
+                returnToMain(view);
+                createClass = false;
+            }
+            if(createClass)
+            {
+                int index = courseList.indexOf(course);
+                StringBuilder toast = new StringBuilder();
+                courseList.get(index).setName(courseName.getText().toString());
+                courseList.get(index).setCourseCode(cc);
+                courseList.get(index).setFallOffering(checkFall.isChecked());
+                courseList.get(index).setWinterOffering(checkWinter.isChecked());
+                courseList.get(index).setSummerOffering(checkSummer.isChecked());
 
-                    String editTextString = prereqText.getText().toString();
-                    System.out.println(editTextString);
-                    editTextString = editTextString.replaceAll("\\s+", "");
-                    editTextString = editTextString.toUpperCase();
-                    System.out.println(editTextString);
-                    List<String> prereqs = new LinkedList<>(Arrays.asList(editTextString.split(",", 0)));
-                    System.out.println(Arrays.toString(prereqs.toArray()));
-                    prereqs.removeAll(Collections.singleton(""));
-                    for (int i = 0; i < prereqs.size(); i++) {
-                        if (prereqs.get(i).equals(courseList.get(index).getCourseCode())) {
-                            toast += prereqs.get(i);
-                            toast += ", ";
-                            prereqs.remove(i);
-                            i--;
+                String editTextString = prereqText.getText().toString();
+                editTextString = editTextString.replaceAll("\\s+", "");
+                editTextString = editTextString.toUpperCase();
+                List<String> prereqs = new LinkedList<>(Arrays.asList(editTextString.split(",", 0)));
+                prereqs.removeAll(Collections.singleton(""));
+                for (int i = 0; i < prereqs.size(); i++) {
+                    if (prereqs.get(i).equals(courseList.get(index).getCourseCode())) {
+                        toast.append(prereqs.get(i));
+                        toast.append(", ");
+                        prereqs.remove(i);
+                        break;
+                    }
+                    int j;
+                    for (j = 0; j < courseList.size(); j++) {
+                        if (prereqs.get(i).equals(courseList.get(j).getCourseCode())) {
                             break;
                         }
-                        int j;
-                        for (j = 0; j < courseList.size(); j++) {
-                            if (prereqs.get(i).equals(courseList.get(j).getCourseCode())) {
-                                break;
-                            }
-                        }
-                        System.out.println(j == courseList.size());
-                        if (j == courseList.size()) {
-                            toast += prereqs.get(i);
-                            toast += ", ";
-                            prereqs.remove(i);
-                            i--;
-                        }
                     }
-                    if (!toast.equals("")) {
-                        toast = toast.substring(0, toast.length() - 2) + " not available prerequisite";
-                        Toast myToast = Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT);
-                        myToast.show();
+                    if (j == courseList.size()) {
+                        toast.append(prereqs.get(i));
+                        toast.append(", ");
+                        prereqs.remove(i);
+                        i--;
                     }
-                    courseList.get(index).setPrerequisites(prereqs);
-                    System.out.println(Arrays.toString(prereqs.toArray()));
-
-                    returnToMain(view);
                 }
-            }
-        });
+                if (!toast.toString().equals("")) {
+                    toast = new StringBuilder(toast.substring(0, toast.length() - 2) + " not available prerequisite");
+                    Toast myToast = Toast.makeText(getApplicationContext(), toast.toString(), Toast.LENGTH_SHORT);
+                    myToast.show();
+                }
+                courseList.get(index).setPrerequisites(prereqs);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 returnToMain(view);
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                courseList.remove(course);
-                returnToMain(view);
-            }
+        cancelButton.setOnClickListener(this::returnToMain);
+
+        deleteButton.setOnClickListener(view -> {
+            courseList.remove(course);
+            returnToMain(view);
         });
 
     }
 
 
     private void setText(Course course) {
-        String offerings = "";
-        String prerequisites = "";
-        List listOfPrereqs = course.getPrerequisites();
+        StringBuilder prerequisites = new StringBuilder();
+        List<String> listOfPrereqs = course.getPrerequisites();
 
         courseName = findViewById(R.id.cname);
         courseName.setText(course.getName());
@@ -184,17 +156,17 @@ public final class EditWindow extends Activity {
         prereqText = findViewById(R.id.cprereqs);
         for(int i = 0; i < listOfPrereqs.size(); i++)
         {
-            prerequisites += listOfPrereqs.get(i) + ", ";
+            prerequisites.append(listOfPrereqs.get(i)).append(", ");
         }
-        if(prerequisites.length() > 0) {prerequisites = prerequisites.substring(0, prerequisites.length()-2);}
-        prereqText.setText(prerequisites);
+        if(prerequisites.length() > 0) {
+            prerequisites = new StringBuilder(prerequisites.substring(0, prerequisites.length() - 2));}
+        prereqText.setText(prerequisites.toString());
 
     }
 
     private void returnToMain(View view) {
         Intent intent = new Intent(view.getContext(),MainActivity.class);
         intent.putParcelableArrayListExtra("newCourseList", courseList);
-        System.out.println(courseList);
         startActivity(intent);
         finish();
     }

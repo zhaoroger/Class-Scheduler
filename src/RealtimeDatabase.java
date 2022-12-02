@@ -24,6 +24,47 @@ public class RealtimeDatabase {
     public static void addAdmin(AdminAccount admin) {
         databaseReference.child(ADMINS).child(admin.getUsername()).setValue(admin);
     }
+    
+    public static void loginStudent(StudentAccount studentAccount, LoginCallback loginCallback) {
+        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting student data", task.getException());
+                } else {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    loginCallback.onCallback(dataSnapshot.exists() && studentAccount.getPassword() != null && studentAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                }
+            }
+        });
+    }
+
+    public static void loginAdmin(AdminAccount adminAccount, LoginCallback loginCallback) {
+        databaseReference.child(ADMINS).child(adminAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting admin data", task.getException());
+                } else {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    loginCallback.onCallback(dataSnapshot.exists() && adminAccount.getPassword() != null && adminAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                }
+            }
+        });
+    }
+
+    public static void getStudentAccount(String username, GetStudentAccountCallback getStudentAccountCallback) {
+        databaseReference.child(STUDENTS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting StudentAccount from Firebase", task.getException());
+                } else {
+                    getStudentAccountCallback.onCallback(task.getResult().getValue(StudentAccount.class));
+                }
+            }
+        });
+    }
 
     public static void addCourse(Course course) {
         ValueEventListener listener = new ValueEventListener() {

@@ -1,6 +1,5 @@
 package com.example.b07project;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,9 @@ import java.util.ArrayList;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder>{
     private final ArrayList<Course> courseList;
-    private final Activity activity;
+    private final AdminMainActivity activity;
 
-    public recyclerAdapter(ArrayList<Course> courseList, Activity activity){
+    public recyclerAdapter(ArrayList<Course> courseList, AdminMainActivity activity){
         this.courseList = courseList;
         this.activity = activity;
     }
@@ -35,6 +34,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
                 intent.putExtra("course", courseList.get(getAdapterPosition()));
                 intent.putParcelableArrayListExtra("courseList", courseList);
                 view1.getContext().startActivity(intent);
+                RealtimeDatabase.unsyncCourseList(activity.getActiveListener());
                 activity.finish();
             });
         }

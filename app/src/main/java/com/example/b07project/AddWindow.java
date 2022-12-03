@@ -45,7 +45,7 @@ public final class AddWindow extends Activity {
             }
             return null;
         };
-        courseCode.setFilters(new InputFilter[] { filter });
+        courseCode.setFilters(new InputFilter[]{filter});
         saveButton = findViewById(R.id.addcoursebutton);
         cancelButton = findViewById(R.id.cancel_add);
         checkFall = findViewById(R.id.fallcheck_add);
@@ -57,31 +57,28 @@ public final class AddWindow extends Activity {
         saveButton.setOnClickListener(view -> {
             boolean createClass = true;
             String cc = courseCode.getText().toString();
-            for(int i = 0; i < courseList.size(); i++)
-            {
-                if(cc.equalsIgnoreCase(courseList.get(i).getCourseCode()))
-                {
+            for (int i = 0; i < courseList.size(); i++) {
+                if (cc.equalsIgnoreCase(courseList.get(i).getCourseCode())) {
                     Toast myToast = Toast.makeText(getApplicationContext(), "Duplicate Class", Toast.LENGTH_SHORT);
                     myToast.show();
                     returnToMain(view);
                     createClass = false;
                 }
             }
-            if(courseName.getText().toString().replaceAll("\\s+", "").equals("") || cc.equals(""))
-            {
+            if (courseName.getText().toString().replaceAll("\\s+", "").equals("") || cc.equals("")) {
                 Toast myToast = Toast.makeText(getApplicationContext(), "Empty name or course code field", Toast.LENGTH_SHORT);
                 myToast.show();
                 returnToMain(view);
                 createClass = false;
             }
-            if(createClass) {
+            if (createClass) {
                 Course course = new Course();
                 StringBuilder toast = new StringBuilder();
                 course.setName(courseName.getText().toString());
                 course.setCourseCode(cc);
-                course.setFallOffering(checkFall.isChecked());
-                course.setWinterOffering(checkWinter.isChecked());
-                course.setSummerOffering(checkSummer.isChecked());
+                course.setOfferedInFall(checkFall.isChecked());
+                course.setOfferedInWinter(checkWinter.isChecked());
+                course.setOfferedInSummer(checkSummer.isChecked());
 
                 String editTextString = prereqText.getText().toString();
                 editTextString = editTextString.replaceAll("\\s+", "");
@@ -114,19 +111,16 @@ public final class AddWindow extends Activity {
                     myToast.show();
                 }
                 course.setPrerequisites(prereqs);
-                courseList.add(course);
-
+                RealtimeDatabase.addCourse(course);
                 returnToMain(view);
             }
         });
 
         cancelButton.setOnClickListener(this::returnToMain);
-
-
     }
 
     private void returnToMain(View view) {
-        Intent intent = new Intent(view.getContext(),MainActivity.class);
+        Intent intent = new Intent(view.getContext(), AdminMainActivity.class);
         intent.putParcelableArrayListExtra("newCourseList", courseList);
         startActivity(intent);
         finish();

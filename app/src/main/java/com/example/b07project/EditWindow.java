@@ -86,9 +86,9 @@ public final class EditWindow extends Activity {
                 StringBuilder toast = new StringBuilder();
                 courseList.get(index).setName(courseName.getText().toString());
                 courseList.get(index).setCourseCode(cc);
-                courseList.get(index).setFallOffering(checkFall.isChecked());
-                courseList.get(index).setWinterOffering(checkWinter.isChecked());
-                courseList.get(index).setSummerOffering(checkSummer.isChecked());
+                courseList.get(index).setOfferedInFall(checkFall.isChecked());
+                courseList.get(index).setOfferedInWinter(checkWinter.isChecked());
+                courseList.get(index).setOfferedInSummer(checkSummer.isChecked());
 
                 String editTextString = prereqText.getText().toString();
                 editTextString = editTextString.replaceAll("\\s+", "");
@@ -165,7 +165,7 @@ public final class EditWindow extends Activity {
     }
 
     private void returnToMain(View view) {
-        Intent intent = new Intent(view.getContext(),MainActivity.class);
+        Intent intent = new Intent(view.getContext(), AdminMainActivity.class);
         intent.putParcelableArrayListExtra("newCourseList", courseList);
         startActivity(intent);
         finish();

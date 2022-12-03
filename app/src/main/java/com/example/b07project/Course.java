@@ -3,16 +3,15 @@ package com.example.b07project;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Course implements Parcelable {
+public final class Course implements Comparable<Course>, Parcelable {
     private String name;
     private String courseCode;
-    private boolean fall;
-    private boolean winter;
-    private boolean summer;
+    private boolean offeredInFall;
+    private boolean offeredInWinter;
+    private boolean offeredInSummer;
     private List<String> prerequisites = new ArrayList<String>();
 
     // No argument constructor
@@ -26,12 +25,12 @@ public final class Course implements Parcelable {
     }
 
     // Name, course code, and offering sessions constructor
-    public Course(String name, String courseCode, boolean fall, boolean winter, boolean summer) {
+    public Course(String name, String courseCode, boolean offeredInFall, boolean winter, boolean offeredInSummer) {
         this.name = name;
         this.courseCode = courseCode;
-        this.fall = fall;
-        this.winter = winter;
-        this.summer = summer;
+        this.offeredInFall = offeredInFall;
+        this.offeredInWinter = winter;
+        this.offeredInSummer = offeredInSummer;
     }
 
     // Name, course code and prerequisites constructor
@@ -42,22 +41,21 @@ public final class Course implements Parcelable {
     }
 
     // Name, course code, offering sessions, and prerequisites constructor
-    public Course(String name, String courseCode, boolean fall, boolean winter, boolean summer,
-                  List<String> prerequisites) {
+    public Course(String name, String courseCode, boolean offeredInFall, boolean winter, boolean offeredInSummer, List<String> prerequisites) {
         this.name = name;
         this.courseCode = courseCode;
-        this.fall = fall;
-        this.winter = winter;
-        this.summer = summer;
+        this.offeredInFall = offeredInFall;
+        this.offeredInWinter = winter;
+        this.offeredInSummer = offeredInSummer;
         this.prerequisites = prerequisites;
     }
 
     protected Course(Parcel in) {
         name = in.readString();
         courseCode = in.readString();
-        fall = in.readByte() != 0;
-        winter = in.readByte() != 0;
-        summer = in.readByte() != 0;
+        offeredInFall = in.readByte() != 0;
+        offeredInWinter = in.readByte() != 0;
+        offeredInSummer = in.readByte() != 0;
         prerequisites = in.createStringArrayList();
     }
 
@@ -77,7 +75,7 @@ public final class Course implements Parcelable {
         return name;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -85,32 +83,32 @@ public final class Course implements Parcelable {
         return courseCode;
     }
 
-    protected void setCourseCode(String courseCode) {
+    public void setCourseCode(String courseCode) {
         this.courseCode = courseCode.toUpperCase();
     }
 
     public boolean isOfferedInFall() {
-        return fall;
+        return offeredInFall;
     }
 
-    protected void setFallOffering(boolean fall) {
-        this.fall = fall;
+    public void setOfferedInFall(boolean offeredInFall) {
+        this.offeredInFall = offeredInFall;
     }
 
     public boolean isOfferedInWinter() {
-        return winter;
+        return offeredInWinter;
     }
 
-    protected void setWinterOffering(boolean winter) {
-        this.winter = winter;
+    public void setOfferedInWinter(boolean offeredInWinter) {
+        this.offeredInWinter = offeredInWinter;
     }
 
     public boolean isOfferedInSummer() {
-        return summer;
+        return offeredInSummer;
     }
 
-    protected void setSummerOffering(boolean summer) {
-        this.summer = summer;
+    public void setOfferedInSummer(boolean offeredInSummer) {
+        this.offeredInSummer = offeredInSummer;
     }
 
     public List<String> getPrerequisites() {
@@ -121,11 +119,11 @@ public final class Course implements Parcelable {
         this.prerequisites = prerequisites;
     }
 
-    protected void addPrerequisite(String prerequisite) {
+    public void addPrerequisite(String prerequisite) {
         prerequisites.add(prerequisite);
     }
 
-    protected void removePrerequisite(String prerequisite) {
+    public void removePrerequisite(String prerequisite) {
         prerequisites.remove(prerequisite);
     }
 
@@ -139,19 +137,24 @@ public final class Course implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         Course other = (Course) obj;
         if (courseCode == null) {
-            if (other.courseCode != null)
-                return false;
-        } else if (!courseCode.equals(other.courseCode))
-            return false;
+            if (other.courseCode != null) return false;
+        } else if (!courseCode.equals(other.courseCode)) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return courseCode + ": " + name;
+    }
+
+    @Override
+    public int compareTo(Course otherCourse) {
+        return courseCode.compareToIgnoreCase(otherCourse.getCourseCode());
     }
 
     @Override
@@ -163,9 +166,9 @@ public final class Course implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeString(courseCode);
-        parcel.writeByte((byte) (fall ? 1 : 0));
-        parcel.writeByte((byte) (winter ? 1 : 0));
-        parcel.writeByte((byte) (summer ? 1 : 0));
+        parcel.writeByte((byte) (offeredInFall ? 1 : 0));
+        parcel.writeByte((byte) (offeredInWinter ? 1 : 0));
+        parcel.writeByte((byte) (offeredInSummer ? 1 : 0));
         parcel.writeStringList(prerequisites);
     }
 }

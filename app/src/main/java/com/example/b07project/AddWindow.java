@@ -10,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class AddWindow extends Activity {
-    ArrayList<Course> courseList;
     EditText courseName;
     EditText courseCode;
     CheckBox checkFall;
@@ -52,68 +53,45 @@ public final class AddWindow extends Activity {
         checkWinter = findViewById(R.id.wintercheck_add);
         checkSummer = findViewById(R.id.summercheck_add);
         prereqText = findViewById(R.id.cprereqs_add);
-        courseList = getIntent().getParcelableArrayListExtra("courseList");
 
         saveButton.setOnClickListener(view -> {
-            boolean createClass = true;
             String cc = courseCode.getText().toString();
-            for (int i = 0; i < courseList.size(); i++) {
-                if (cc.equalsIgnoreCase(courseList.get(i).getCourseCode())) {
-                    Toast myToast = Toast.makeText(getApplicationContext(), "Duplicate Class", Toast.LENGTH_SHORT);
-                    myToast.show();
-                    returnToMain(view);
-                    createClass = false;
-                }
-            }
+
             if (courseName.getText().toString().replaceAll("\\s+", "").equals("") || cc.equals("")) {
                 Toast myToast = Toast.makeText(getApplicationContext(), "Empty name or course code field", Toast.LENGTH_SHORT);
                 myToast.show();
                 returnToMain(view);
-                createClass = false;
             }
-            if (createClass) {
-                Course course = new Course();
-                StringBuilder toast = new StringBuilder();
-                course.setName(courseName.getText().toString());
-                course.setCourseCode(cc);
-                course.setOfferedInFall(checkFall.isChecked());
-                course.setOfferedInWinter(checkWinter.isChecked());
-                course.setOfferedInSummer(checkSummer.isChecked());
 
-                String editTextString = prereqText.getText().toString();
-                editTextString = editTextString.replaceAll("\\s+", "");
-                editTextString = editTextString.toUpperCase();
-                List<String> prereqs = new LinkedList<>(Arrays.asList(editTextString.split(",", 0)));
-                prereqs.removeAll(Collections.singleton(""));
-                for (int i = 0; i < prereqs.size(); i++) {
-                    if (prereqs.get(i).equals(course.getCourseCode())) {
-                        toast.append(prereqs.get(i));
-                        toast.append(", ");
-                        prereqs.remove(i);
-                        break;
-                    }
-                    int j;
-                    for (j = 0; j < courseList.size(); j++) {
-                        if (prereqs.get(i).equals(courseList.get(j).getCourseCode())) {
-                            break;
+            RealtimeDatabase.checkExists(cc, new CheckExistsCallback() {
+                @Override
+                public void onCallback(boolean exists) {
+                    if (!exists) {
+                        Course course = new Course();
+                        StringBuilder toast = new StringBuilder();
+                        course.setName(courseName.getText().toString());
+                        course.setCourseCode(cc);
+                        course.setOfferedInFall(checkFall.isChecked());
+                        course.setOfferedInWinter(checkWinter.isChecked());
+                        course.setOfferedInSummer(checkSummer.isChecked());
+                        String editTextString = prereqText.getText().toString();
+                        editTextString = editTextString.replaceAll("\\s+", "");
+                        editTextString = editTextString.toUpperCase();
+                        List<String> prereqs = new LinkedList<>(Arrays.asList(editTextString.split(",", 0)));
+                        prereqs.removeAll(Collections.singleton(""));
+                        course.setPrerequisites(prereqs);
+                        RealtimeDatabase.addCourse(course);
+                        for (String prereq : prereqs) {
+                            RealtimeDatabase.addCourse(new Course(prereq));
                         }
-                    }
-                    if (j == courseList.size()) {
-                        toast.append(prereqs.get(i));
-                        toast.append(", ");
-                        prereqs.remove(i);
-                        i--;
+                        returnToMain(view);
+                    } else {
+                        Toast myToast = Toast.makeText(getApplicationContext(), cc + " already exists", Toast.LENGTH_SHORT);
+                        myToast.show();
+                        returnToMain(view);
                     }
                 }
-                if (!toast.toString().equals("")) {
-                    toast = new StringBuilder(toast.substring(0, toast.length() - 2) + " not available prerequisite");
-                    Toast myToast = Toast.makeText(getApplicationContext(), toast.toString(), Toast.LENGTH_SHORT);
-                    myToast.show();
-                }
-                course.setPrerequisites(prereqs);
-                RealtimeDatabase.addCourse(course);
-                returnToMain(view);
-            }
+            });
         });
 
         cancelButton.setOnClickListener(this::returnToMain);
@@ -121,7 +99,6 @@ public final class AddWindow extends Activity {
 
     private void returnToMain(View view) {
         Intent intent = new Intent(view.getContext(), AdminMainActivity.class);
-        intent.putParcelableArrayListExtra("newCourseList", courseList);
         startActivity(intent);
         finish();
     }

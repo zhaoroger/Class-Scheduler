@@ -18,6 +18,11 @@ public final class Course implements Comparable<Course>, Parcelable {
     public Course() {
     }
 
+    // Course code constructor
+    public Course(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
     // Name and course code constructor
     public Course(String name, String courseCode) {
         this.name = name;

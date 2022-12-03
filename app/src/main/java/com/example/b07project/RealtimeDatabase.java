@@ -75,21 +75,18 @@ public class RealtimeDatabase {
     }
 
     public static void addCourse(Course course) {
-        ValueEventListener listener = new ValueEventListener() {
+        databaseReference.child(COURSES).child(course.getCourseCode()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    databaseReference.child(COURSES).child(course.getCourseCode()).setValue(course);
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error adding course to realtime database", task.getException());
+                } else {
+                    if (!task.getResult().exists()) {
+                        databaseReference.child(COURSES).child(course.getCourseCode()).setValue(course);
+                    }
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error adding course to realtime database", databaseError.toException());
-            }
-        };
-
-        databaseReference.child(COURSES).child(course.getCourseCode()).addListenerForSingleValueEvent(listener);
+        });
     }
 
     public static void removeCourse(Course course) {
@@ -102,6 +99,25 @@ public class RealtimeDatabase {
 
     public static void editCourse(Course course) {
         // TODO
+    }
+
+    public static void checkExists(String courseCode, CheckExistsCallback checkExistsCallback) {
+        databaseReference.child(COURSES).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error checking if course exists", task.getException());
+                } else {
+                    for (DataSnapshot courseDataSnapshot : task.getResult().getChildren()) {
+                        if (courseDataSnapshot.getValue(Course.class).getCourseCode().equals(courseCode)) {
+                            checkExistsCallback.onCallback(true);
+                        }
+                    }
+
+                    checkExistsCallback.onCallback(false);
+                }
+            }
+        });
     }
 
     public static ValueEventListener syncCourseList(CourseListCallback courseListCallback, Activity activity) {

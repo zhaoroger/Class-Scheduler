@@ -10,3 +10,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other course work
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- changed UI a little so as to be more user friendly
+
+What are you planning on doing today?
+	- nothing
+
+Any impediments or stumbling blocks?
+	- very busy with other courses

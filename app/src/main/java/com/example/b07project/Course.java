@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public final class Course implements Comparable<Course>, Parcelable {
     private String name;
@@ -42,7 +43,7 @@ public final class Course implements Comparable<Course>, Parcelable {
     public Course(String name, String courseCode, List<String> prerequisites) {
         this.name = name;
         this.courseCode = courseCode;
-        this.prerequisites = prerequisites;
+        setPrerequisites(prerequisites);
     }
 
     // Name, course code, offering sessions, and prerequisites constructor
@@ -52,7 +53,7 @@ public final class Course implements Comparable<Course>, Parcelable {
         this.offeredInFall = offeredInFall;
         this.offeredInWinter = winter;
         this.offeredInSummer = offeredInSummer;
-        this.prerequisites = prerequisites;
+        setPrerequisites(prerequisites);
     }
 
     protected Course(Parcel in) {
@@ -121,7 +122,11 @@ public final class Course implements Comparable<Course>, Parcelable {
     }
 
     public void setPrerequisites(List<String> prerequisites) {
-        this.prerequisites = prerequisites;
+        for (String prerequisite : prerequisites) {
+            if (!prerequisite.equals(this.courseCode)) {
+                this.prerequisites.add(prerequisite.toUpperCase());
+            }
+        }
     }
 
     public void addPrerequisite(String prerequisite) {

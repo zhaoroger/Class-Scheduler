@@ -97,10 +97,6 @@ public class RealtimeDatabase {
         databaseReference.child(COURSES).child(courseCode).removeValue();
     }
 
-    public static void editCourse(Course course) {
-        // TODO
-    }
-
     public static void checkExists(String courseCode, CheckExistsCallback checkExistsCallback) {
         databaseReference.child(COURSES).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -108,13 +104,15 @@ public class RealtimeDatabase {
                 if (!task.isSuccessful()) {
                     Log.e(null, "Error checking if course exists", task.getException());
                 } else {
+                    boolean exists = false;
+
                     for (DataSnapshot courseDataSnapshot : task.getResult().getChildren()) {
                         if (courseDataSnapshot.getValue(Course.class).getCourseCode().equals(courseCode)) {
-                            checkExistsCallback.onCallback(true);
+                            exists = true;
                         }
                     }
 
-                    checkExistsCallback.onCallback(false);
+                    checkExistsCallback.onCallback(exists);
                 }
             }
         });

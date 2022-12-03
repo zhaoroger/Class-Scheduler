@@ -1,1 +1,10 @@
+Name: Victor Yeung
 
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- start adding some condition checks to make sure users can't login to the wrong accounts
+
+Any impediments or stumbling blocks?
+	- other course work

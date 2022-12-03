@@ -8,3 +8,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other course work
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- worked on user authentication
+
+What are you planning on doing today?
+	- finish implementing firebase user authentication
+
+Any impediments or stumbling blocks?
+	- many of the firebase methods are unfamiliar to me

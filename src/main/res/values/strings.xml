@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">B07 Project</string>
+    <string name="username">Username</string>
+    <string name="add_course">Add Course</string>
+    <string name="save_and_logout">Save and Logout</string>
+    <string name="course">Course:</string>
+    <string name="course_code">Course Code:</string>
+    <string name="offering_sessions">Offering Sessions:</string>
+    <string name="fall">Fall</string>
+    <string name="winter">Winter</string>
+    <string name="summer">Summer</string>
+    <string name="prerequisites">Prerequisites:</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="cancel">Cancel</string>
+    <string name="details">Details</string>
+</resources>

@@ -3,31 +3,20 @@ package com.example.loginandregister;
 import java.util.List;
 
 public class LoginModel {
-    List<String> studentNames;
-    List<String> adminNames;
-
-    public LoginModel(){
-        List<StudentAccount> students = RealtimeDatabase.getAllStudents();
-        List<AdminAccount> admins = RealtimeDatabase.getAllAdmins();
-        for(StudentAccount student : students) {
-            studentNames.add(student.username);
-        }
-        for(AdminAccount admin : admins) {
-            adminNames.add(admin.username);
-        }
-    }
 
     public boolean isStudent(String name){
-        if(studentNames.contains(name)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isAdmin(String name){
-        if(adminNames.contains(name)) {
-            return true;
-        }
-        return false;
+        final boolean[] isStudent = new boolean[1];
+        RealtimeDatabase.getStudentAccount(name, new GetStudentAccountCallback() {
+            @Override
+            public void onCallback(StudentAccount studentAccount) {
+                RealtimeDatabase.loginStudent(studentAccount, new LoginCallback() {
+                    @Override
+                    public void onCallback(boolean loggedIn) {
+                        isStudent[0] = loggedIn;
+                    }
+                });
+            }
+        });
+        return isStudent[0];
     }
 }

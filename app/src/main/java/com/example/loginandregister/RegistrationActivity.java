@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    RealtimeDatabase database;
+    private RegisterPresenter presenter;
     TextView loginTransition;
     EditText Username, Password, ConfirmPassword, name;
     Button registerButton;
@@ -30,7 +30,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Switch isAdmin;
     FirebaseAuth auth;
     FirebaseUser user;
-    RegisterPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

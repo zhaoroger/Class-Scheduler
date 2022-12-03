@@ -25,13 +25,13 @@ public class RegisterPresenter implements Contract.Presenter {
         String Name = view.name.getText().toString();
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if(!username.matches(validEmail)){
+        if (!username.matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
-        } else if(password.isEmpty()){
+        } else if (password.isEmpty()){
             view.Password.setError("Please enter valid password.");
-        } else if(!password.equals(cPassword)) {
+        } else if (!password.equals(cPassword)) {
             view.ConfirmPassword.setError("Passwords do not match.");
-        } else if(model.isRegistered(username)) {
+        } else if (model.isRegistered(username)) {
             view.Username.setError("This e-mail is already registered under another account");
         } else {
             view.progress.setMessage("Please wait...");
@@ -46,10 +46,10 @@ public class RegisterPresenter implements Contract.Presenter {
                         view.progress.dismiss();
                         view.displayMessage("Registration successful");
                         if (view.isAdmin.isChecked()) {
-                            view.database.addAdmin(new AdminAccount(username, password, Name));
+                            RealtimeDatabase.addAdmin(new AdminAccount(username, password, Name));
                             view.sendToAdminAcct();
                         } else {
-                            view.database.addStudent(new StudentAccount(username, password, Name));
+                            RealtimeDatabase.addStudent(new StudentAccount(username, password, Name));
                             view.sendToStudentAcct();
                         }
                     } else {

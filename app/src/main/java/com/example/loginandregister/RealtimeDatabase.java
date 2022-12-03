@@ -1,7 +1,12 @@
 package com.example.loginandregister;
 
+import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,20 +14,77 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RealtimeDatabase {
-    private static DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://cscb07-project-851d6-default-rtdb.firebaseio.com/").getReference();
+    private final static DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://cscb07-project-851d6-default-rtdb.firebaseio.com/").getReference();
+    private static final String ADMINS = "admins";
+    private static final String COURSES = "courses";
+    private static final String STUDENTS = "students";
+    private static final String PASSWORD = "password";
 
     private RealtimeDatabase() {
     }
 
     public static void addStudent(StudentAccount student) {
-        databaseReference.child("students").child(student.getUsername()).setValue(student);
+        databaseReference.child(STUDENTS).child(student.getUsername()).setValue(student);
     }
 
     public static void addAdmin(AdminAccount admin) {
-        databaseReference.child("admins").child(admin.getUsername()).setValue(admin);
+        databaseReference.child(ADMINS).child(admin.getUsername()).setValue(admin);
+    }
+
+    public static void loginStudent(StudentAccount studentAccount, LoginCallback loginCallback) {
+        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting student data", task.getException());
+                } else {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    loginCallback.onCallback(dataSnapshot.exists() && studentAccount.getPassword() != null && studentAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                }
+            }
+        });
+    }
+
+    public static void loginAdmin(AdminAccount adminAccount, LoginCallback loginCallback) {
+        databaseReference.child(ADMINS).child(adminAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting admin data", task.getException());
+                } else {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    loginCallback.onCallback(dataSnapshot.exists() && adminAccount.getPassword() != null && adminAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                }
+            }
+        });
+    }
+
+    public static void getStudentAccount(String username, GetStudentAccountCallback getStudentAccountCallback) {
+        databaseReference.child(STUDENTS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting StudentAccount from Firebase", task.getException());
+                } else {
+                    getStudentAccountCallback.onCallback(task.getResult().getValue(StudentAccount.class));
+                }
+            }
+        });
+    }
+
+    public static void getAdminAccount(String username, GetAdminAccountCallback getAdminAccountCallback) {
+        databaseReference.child(ADMINS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting AdminAccount from Firebase", task.getException());
+                } else {
+                    getAdminAccountCallback.onCallback(task.getResult().getValue(AdminAccount.class));
+                }
+            }
+        });
     }
 
     public static void addCourse(Course course) {
@@ -30,94 +92,56 @@ public class RealtimeDatabase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    databaseReference.child("courses").child(course.getCourseCode()).setValue(course);
+                    databaseReference.child(COURSES).child(course.getCourseCode()).setValue(course);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error adding course", databaseError.toException());
+                Log.e(null, "Error adding course to realtime database", databaseError.toException());
             }
         };
 
-        databaseReference.child("courses").child(course.getCourseCode()).addListenerForSingleValueEvent(listener);
+        databaseReference.child(COURSES).child(course.getCourseCode()).addListenerForSingleValueEvent(listener);
     }
 
     public static void removeCourse(Course course) {
-        databaseReference.child("courses").child(course.getCourseCode()).removeValue();
+        databaseReference.child(COURSES).child(course.getCourseCode()).removeValue();
     }
 
     public static void removeCourse(String courseCode) {
-        databaseReference.child("courses").child(courseCode).removeValue();
+        databaseReference.child(COURSES).child(courseCode).removeValue();
     }
 
     public static void editCourse(Course course) {
         // TODO
     }
 
-    public static List<Course> getAllCourses() {
-        List<Course> allCourses = new ArrayList<Course>();
-        DatabaseReference coursesReference = databaseReference.child("courses");
-        ValueEventListener coursesListener = new ValueEventListener() {
+    public static ValueEventListener syncCourseList(CourseListCallback courseListCallback, Activity activity) {
+        ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Course> courseList = new ArrayList<Course>();
                 for (DataSnapshot courseDataSnapshot : dataSnapshot.getChildren()) {
                     Course course = courseDataSnapshot.getValue(Course.class);
-                    allCourses.add(course);
+                    courseList.add(course);
                 }
+
+                courseListCallback.onCallback(courseList, activity);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error getting all courses", databaseError.toException());
+                Log.e(null, "Error syncing course list with realtime database", databaseError.toException());
             }
         };
-
-        coursesReference.addValueEventListener(coursesListener);
-        return allCourses;
+        databaseReference.child(COURSES).addValueEventListener(listener);
+        return listener;
     }
 
-    public static List<StudentAccount> getAllStudents() {
-        List<StudentAccount> allStudents = new ArrayList<StudentAccount>();
-        DatabaseReference studentsReference = databaseReference.child("students");
-        ValueEventListener studentsListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot studentDataSnapshot : dataSnapshot.getChildren()) {
-                    StudentAccount student = studentDataSnapshot.getValue(StudentAccount.class);
-                    allStudents.add(student);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error getting all students", databaseError.toException());
-            }
-        };
-
-        studentsReference.addValueEventListener(studentsListener);
-        return allStudents;
-    }
-
-    public static List<AdminAccount> getAllAdmins() {
-        List<AdminAccount> allAdmins = new ArrayList<AdminAccount>();
-        DatabaseReference adminsReference = databaseReference.child("admins");
-        ValueEventListener adminsListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot adminDataSnapshot : dataSnapshot.getChildren()) {
-                    AdminAccount admin = adminDataSnapshot.getValue(AdminAccount.class);
-                    allAdmins.add(admin);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error getting all admins", databaseError.toException());
-            }
-        };
-
-        adminsReference.addValueEventListener(adminsListener);
-        return allAdmins;
+    public static void unsyncCourseList(ValueEventListener courseListListener) {
+        if (courseListListener != null) {
+            databaseReference.child(COURSES).removeEventListener(courseListListener);
+        }
     }
 }

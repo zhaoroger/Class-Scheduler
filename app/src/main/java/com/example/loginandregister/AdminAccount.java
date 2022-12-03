@@ -10,7 +10,7 @@ final class AdminAccount extends Account implements Admin {
 
     @Override
     public List<Course> getAllCourses() {
-        return RealtimeDatabase.getAllCourses();
+        return null;
     }
 
     @Override

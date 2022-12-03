@@ -24,11 +24,11 @@ public class LoginPresenter implements Contract.Presenter {
         if(!username.matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
         } else if (password.isEmpty()) {
-            view.Password.setError("Please enter valid password.");
-        } else if (view.isAdmin.isChecked() && model.isAdmin(username) == false) {
-            view.Username.setError("User not registered as admin");
-        } else if (view.isAdmin.isChecked() == false && model.isStudent(username) == false) {
-            view.Username.setError("User not registered as student");
+            view.Password.setError("Please enter a valid password");
+        } else if (model.isStudent(username) && view.isAdmin.isChecked()) {
+            view.Username.setError("This account is not registered as an admin");
+        } else if (!(model.isStudent(username) && view.isAdmin.isChecked())) {
+            view.Username.setError("This account is not registered as a student");
         } else {
             view.progress.setMessage("Please wait...");
             view.progress.setTitle("Login");
@@ -43,6 +43,12 @@ public class LoginPresenter implements Contract.Presenter {
                         if (view.isAdmin.isChecked()) {
                             view.sendToAdminAcct();
                         } else {
+                            RealtimeDatabase.getStudentAccount(username, new GetStudentAccountCallback() {
+                                @Override
+                                public void onCallback(StudentAccount studentAccount) {
+                                    // StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                }
+                            });
                             view.sendToStudentAcct();
                         }
                         view.displayMessage("Login successful");

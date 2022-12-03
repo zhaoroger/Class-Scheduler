@@ -1,5 +1,5 @@
 Group 1 members:
-Hangyu Zhu, Havan Patel, Victor Yeung, Pejvak Javaheri, Roger Zhao (Scrum Master)
+Hangyu Zhu, Victor Yeung, Pejvak Javaheri, Roger Zhao (Scrum Master)
 
 Primary method of communication:
 Discord

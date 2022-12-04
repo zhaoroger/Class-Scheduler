@@ -74,6 +74,34 @@ public class RealtimeDatabase {
         });
     }
 
+    public static void syncStudentCourseList(StudentCourseCallback studentCourseCallback, StudentAccount studentAccount) {
+        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).child(COURSES).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error syncing student course list with realtime database", task.getException());
+                } else {
+                    for (DataSnapshot studentCourseDataSnapshot : task.getResult().getChildren()) {
+                        String studentCourseCode = studentCourseDataSnapshot.getValue(String.class);
+
+                        databaseReference.child(COURSES).child(studentCourseCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.e(null, "Error syncing student course list with realtime database", task.getException());
+                                } else {
+                                    if (task.getResult().exists()) {
+                                        studentCourseCallback.onCallback(task.getResult().getValue(Course.class));
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
     public static void updateStudentCourseList(StudentAccount student, ArrayList<String> studentCourseList) {
         databaseReference.child(STUDENTS).child(student.getUsername()).child(COURSES).setValue(studentCourseList);
     }
@@ -125,42 +153,6 @@ public class RealtimeDatabase {
                 }
             }
         });
-    }
-
-    public static ValueEventListener syncStudentCourseList(StudentCourseCallback studentCourseCallback, StudentAccount studentAccount) {
-        ValueEventListener studentCourseListListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot studentCourseDataSnapshot : dataSnapshot.getChildren()) {
-                    String studentCourseCode = studentCourseDataSnapshot.getValue(String.class);
-
-                    ValueEventListener courseListener = new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot courseSnapshot) {
-                            if (courseSnapshot.exists()) {
-                                studentCourseCallback.onCallback(courseSnapshot.getValue(Course.class));
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            Log.e(null, "Error syncing student course list with realtime database", error.toException());
-                        }
-                    };
-
-                    databaseReference.child(COURSES).child(studentCourseCode).addValueEventListener(courseListener);
-                    // TODO: how to remove this listener?
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error syncing student course list with realtime database", databaseError.toException());
-            }
-        };
-
-        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).child(COURSES).addValueEventListener(studentCourseListListener);
-        return studentCourseListListener;
     }
 
     public static ValueEventListener syncCourseList(CourseListCallback courseListCallback, Activity activity) {

@@ -61,6 +61,7 @@ public class RealtimeDatabase {
         });
     }
 
+
     public static void getStudentAccount(String username, GetStudentAccountCallback getStudentAccountCallback) {
         databaseReference.child(STUDENTS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -73,6 +74,22 @@ public class RealtimeDatabase {
             }
         });
     }
+
+    /*
+    public static StudentAccount getStudentAccount(String username){
+        databaseReference.child("students").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("demo", "Error getting data", task.getException());
+                }
+                else {
+                    Log.i("demo", task.getResult().getValue().toString());
+                }
+            }
+        });
+        return new StudentAccount();
+    }*/
 
     public static void getAdminAccount(String username, GetAdminAccountCallback getAdminAccountCallback) {
         databaseReference.child(ADMINS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

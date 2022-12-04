@@ -1,5 +1,7 @@
 package com.example.loginandregister;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +20,7 @@ public class LoginPresenter implements Contract.Presenter {
     @Override
     public void Authenticate() {
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String uid = view.user.getUid();
         String username = view.getUsername();
         String password = view.getPassword();
 
@@ -25,9 +28,9 @@ public class LoginPresenter implements Contract.Presenter {
             view.Username.setError("Please enter a valid e-mail address");
         } else if (password.isEmpty()) {
             view.Password.setError("Please enter a valid password");
-        } else if (model.isStudent(username) && view.isAdmin.isChecked()) {
+        } else if (model.isStudent(uid) && view.isAdmin.isChecked()) {
             view.Username.setError("This account is not registered as an admin");
-        } else if (!(model.isStudent(username) && view.isAdmin.isChecked())) {
+        } else if (!model.isStudent(uid) && !view.isAdmin.isChecked()) {
             view.Username.setError("This account is not registered as a student");
         } else {
             view.progress.setMessage("Please wait...");
@@ -43,10 +46,10 @@ public class LoginPresenter implements Contract.Presenter {
                         if (view.isAdmin.isChecked()) {
                             view.sendToAdminAcct();
                         } else {
-                            RealtimeDatabase.getStudentAccount(username, new GetStudentAccountCallback() {
+                            RealtimeDatabase.getStudentAccount(uid, new GetStudentAccountCallback() {
                                 @Override
                                 public void onCallback(StudentAccount studentAccount) {
-                                    // StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                    //StudentModuleCommunicator.setStudentAccount(studentAccount);
                                 }
                             });
                             view.sendToStudentAcct();

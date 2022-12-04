@@ -17,6 +17,8 @@ public class StudentViewPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new StudentCoursesTabFragment();
             case 1:
+                return new StudentExplorerTabFragment();
+            case 2:
                 return new StudentTimelineTabFragment();
             default:
                 return createFragment(0);
@@ -25,6 +27,6 @@ public class StudentViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

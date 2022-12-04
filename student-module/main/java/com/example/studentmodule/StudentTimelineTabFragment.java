@@ -2,63 +2,141 @@ package com.example.studentmodule;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StudentTimelineTabFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.studentmodule.databinding.FragmentSecondBinding;
+import com.example.studentmodule.databinding.FragmentStudentTimelineTabBinding;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class StudentTimelineTabFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentStudentTimelineTabBinding binding;
+    private StudentModuleCommunicator comm;
+    private ArrayAdapter<String> timelineCoursesStringArrayAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
-    public StudentTimelineTabFragment() {
-        // Required empty public constructor
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StudentTimelineTabFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StudentTimelineTabFragment newInstance(String param1, String param2) {
-        StudentTimelineTabFragment fragment = new StudentTimelineTabFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private void visuallyAdjustTimelineListView() {
+        timelineCoursesStringArrayAdapter.notifyDataSetChanged();
+        /*
+        for (int i=0; i < timelineCoursesStringArrayAdapter.getCount(); i++) {
+            if (timelineCoursesStringArrayAdapter.getItem(i).contains("~~")) {
+                View view = getViewByPosition(i, binding.timelineListView);
+                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                view.setClickable(false);
+            }
+        }
+        */
+        if (timelineCoursesStringArrayAdapter.isEmpty())
+            binding.timelineTopTextView
+                    .setText("You can start planning by choosing courses in the explorer tab!");
+        else {
+            Date date = Calendar.getInstance().getTime();
+            SimpleDateFormat yearFormat =
+                    new SimpleDateFormat("yyyy", Locale.getDefault());
+            SimpleDateFormat monthFormat =
+                    new SimpleDateFormat("MM", Locale.getDefault());
+            int year = Integer.parseInt(yearFormat.format(date));
+            int month = Integer.parseInt(monthFormat.format(date));
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Log.i("date", "" + year + "" + month);
+            String semester;
+            if (4 < month && month < 9)
+                semester = "Summer ";
+            else if (month > 8)
+                semester = "Fall ";
+            else
+                semester = "Winter ";
+            binding.timelineTopTextView
+                    .setText("Your current semester is: " + semester + year + ".\n\nHere's your timeline starting from the upcoming semester!");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_timeline_tab, container, false);
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
+        binding = FragmentStudentTimelineTabBinding.inflate(inflater, container, false);
+
+        comm = StudentModuleCommunicator.getInstance();
+
+
+        timelineCoursesStringArrayAdapter = new ArrayAdapter<String>(
+                this.getContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, //support_simple_spinner_dropdown_item,
+                comm.getTimelineCoursesStringArray()
+        );
+        visuallyAdjustTimelineListView();
+        binding.timelineListView.setAdapter(this.timelineCoursesStringArrayAdapter);
+        binding.timelineListView.setClickable(false);
+        binding.timelineListView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange (int visibility) {
+                visuallyAdjustTimelineListView();
+            }
+        });
+        //binding.timelineListView.setClickable(true);
+        /*
+        binding.timelineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //comm.alterCourseStateInFutureCourses(timelineCoursesStringArrayAdapter.getItem(position));
+                //android:background="?android:attr/activatedBackgroundIndicator" in xml
+                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                view.setClickable(false);
+            }
+        });
+        */
+
+        visuallyAdjustTimelineListView();
+        return binding.getRoot();
     }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //timelineCoursesStringArrayAdapter.notifyDataSetChanged();
+        visuallyAdjustTimelineListView();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //timelineCoursesStringArrayAdapter.notifyDataSetChanged();
+        visuallyAdjustTimelineListView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
 }

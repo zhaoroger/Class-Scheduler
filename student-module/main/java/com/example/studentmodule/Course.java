@@ -150,6 +150,6 @@ public final class Course implements Comparable<Course> {
                 return -1;
             return 0;
         }
-        return this.name.compareTo(course.getName());
+        return this.name.compareTo(course.getCourseCode());
     }
 }

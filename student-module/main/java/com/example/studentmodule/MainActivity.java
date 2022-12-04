@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 );
                 allCourses.addCourse(
                         new Course(
-                                "Introduction to Computer Science II",
+                                "Introduction to Computer Science II with a name that is really long!",
                                 "CSCA48",
                                 false,
                                 true,
@@ -81,6 +81,60 @@ public class MainActivity extends AppCompatActivity {
                                 true,
                                 false,
                                 false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Introduction to Physics I",
+                                "PHYA10",
+                                true,
+                                false,
+                                false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Introduction to Physics II",
+                                "PHYA21",
+                                true,
+                                false,
+                                false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Calculus I",
+                                "MATA30",
+                                true,
+                                false,
+                                false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Calculus II",
+                                "MATA36",
+                                true,
+                                false,
+                                false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Project course",
+                                "PHYD01",
+                                true,
+                                false,
+                                false
+                        )
+                );
+                allCourses.addCourse(
+                        new Course(
+                                "Reading course",
+                                "PHD72",
+                                true,  //to be corrected when a course is offered in two sessions
+                                false,
+                                true
                         )
                 );
 

@@ -47,6 +47,8 @@ public class StudentActivity extends AppCompatActivity {
                         @Override
                         public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                             if (position == 1)
+                                tab.setText("Explorer");
+                            else if (position == 2)
                                 tab.setText("My Timeline");
                             else
                                 tab.setText("Dashboard");

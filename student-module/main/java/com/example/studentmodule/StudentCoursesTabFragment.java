@@ -30,6 +30,7 @@ public class StudentCoursesTabFragment extends Fragment {
     private static StudentModuleCommunicator comm;
 
     private static Course promptedCourse;
+
     private void promptToApplyChanges(String message) {
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -59,14 +60,14 @@ public class StudentCoursesTabFragment extends Fragment {
         if (!comm.getSortedStudentCoursesArray().contains(newCourse)) {
             Log.i("addCourse", "passed if");
             comm.addCourseToSortedStudentCourses(newCourse);
-            binding.coursesListView.setAdapter(studentCoursesArrayAdapter);
+            studentCoursesArrayAdapter.notifyDataSetChanged();
         }
     }
     private void removeCourseFromStudentCourses(StudentModuleCommunicator comm) {
         if (promptedCourse != null) {
             if (comm.getSortedStudentCoursesArray().contains(promptedCourse)) {
                 comm.removeCourseFromSortedStudentCourses(promptedCourse);
-                binding.coursesListView.setAdapter(studentCoursesArrayAdapter);
+                studentCoursesArrayAdapter.notifyDataSetChanged();
             }
             promptedCourse = null;
         }
@@ -146,6 +147,13 @@ public class StudentCoursesTabFragment extends Fragment {
                 startActivity(switchActivityIntent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        allCoursesArrayAdapter.notifyDataSetChanged();
+        studentCoursesArrayAdapter.notifyDataSetChanged();
     }
 
     @Override

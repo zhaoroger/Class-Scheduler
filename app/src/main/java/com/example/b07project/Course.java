@@ -122,15 +122,24 @@ public final class Course implements Comparable<Course>, Parcelable {
     }
 
     public void setPrerequisites(List<String> prerequisites) {
+        this.prerequisites = new ArrayList<String>();
         for (String prerequisite : prerequisites) {
-            if (!prerequisite.equals(this.courseCode)) {
-                this.prerequisites.add(prerequisite.toUpperCase());
-            }
+            addPrerequisite(prerequisite);
         }
     }
 
     public void addPrerequisite(String prerequisite) {
-        prerequisites.add(prerequisite);
+        if (prerequisite == null || prerequisite.equals(this.courseCode)) {
+            return;
+        }
+
+        for (String existingPrerequisite : prerequisites) {
+            if (prerequisite.equalsIgnoreCase(existingPrerequisite)) {
+                return;
+            }
+        }
+
+        this.prerequisites.add(prerequisite.toUpperCase());
     }
 
     public void removePrerequisite(String prerequisite) {

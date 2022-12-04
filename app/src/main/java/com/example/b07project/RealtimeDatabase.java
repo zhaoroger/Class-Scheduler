@@ -74,6 +74,10 @@ public class RealtimeDatabase {
         });
     }
 
+    public static void updateStudentCourseList(StudentAccount student, ArrayList<String> studentCourseList) {
+        databaseReference.child(STUDENTS).child(student.getUsername()).child(COURSES).setValue(studentCourseList);
+    }
+
     public static void addCourse(Course course) {
         databaseReference.child(COURSES).child(course.getCourseCode()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override

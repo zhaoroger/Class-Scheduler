@@ -109,7 +109,20 @@ public class RealtimeDatabase {
             }
         });
     }
-    
+
+    public static void getCourse(String courseCode, GetCourseCallback getCourseCallback) {
+        databaseReference.child(COURSES).child(courseCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting course data from realtime database", task.getException());
+                } else {
+                    getCourseCallback.onCallback(task.getResult().getValue(Course.class));
+                }
+            }
+        });
+    }
+
     public static ValueEventListener syncStudentCourseList(StudentCourseCallback studentCourseCallback, StudentAccount studentAccount) {
         ValueEventListener studentCourseListListener = new ValueEventListener() {
             @Override

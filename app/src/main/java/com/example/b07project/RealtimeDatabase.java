@@ -118,6 +118,42 @@ public class RealtimeDatabase {
         });
     }
 
+    public static ValueEventListener syncStudentCourseList(StudentCourseCallback studentCourseCallback, StudentAccount studentAccount) {
+        ValueEventListener studentCourseListListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot studentCourseDataSnapshot : dataSnapshot.getChildren()) {
+                    String studentCourseCode = studentCourseDataSnapshot.getValue(String.class);
+
+                    ValueEventListener courseListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot courseSnapshot) {
+                            if (courseSnapshot.exists()) {
+                                studentCourseCallback.onCallback(courseSnapshot.getValue(Course.class));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            Log.e(null, "Error syncing student course list with realtime database", error.toException());
+                        }
+                    };
+
+                    databaseReference.child(COURSES).child(studentCourseCode).addValueEventListener(courseListener);
+                    // TODO: how to remove this listener?
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(null, "Error syncing student course list with realtime database", databaseError.toException());
+            }
+        };
+
+        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).child(COURSES).addValueEventListener(studentCourseListListener);
+        return studentCourseListListener;
+    }
+
     public static ValueEventListener syncCourseList(CourseListCallback courseListCallback, Activity activity) {
         ValueEventListener listener = new ValueEventListener() {
             @Override

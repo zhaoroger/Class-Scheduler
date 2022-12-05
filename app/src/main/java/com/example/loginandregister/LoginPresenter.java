@@ -57,7 +57,6 @@ public class LoginPresenter implements Contract.Presenter {
                                         });
                                     } else {
                                         view.progress.dismiss();
-                                        //view.displayMessage("Login unsuccessful");
                                     }
                                 }
                             });
@@ -70,7 +69,6 @@ public class LoginPresenter implements Contract.Presenter {
                                         view.displayMessage("Admin login successful");
                                     } else {
                                         view.progress.dismiss();
-                                        //view.displayMessage("Login unsuccessful");
                                     }
                                 }
                             });

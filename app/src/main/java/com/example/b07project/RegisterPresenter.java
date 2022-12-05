@@ -26,6 +26,9 @@ public class RegisterPresenter implements Contract.Presenter {
         String cPassword = view.ConfirmPassword.getText().toString();
         String Name = view.name.getText().toString();
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        Course course = new Course("CSCA08", "csca08", true, false, false);
+        List<String> courses = new ArrayList<String>();
+        courses.add("CSCA08");
 
         if (!username.matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
@@ -54,7 +57,7 @@ public class RegisterPresenter implements Contract.Presenter {
                                     RealtimeDatabase.addAdmin(new AdminAccount(uid[0], password, Name));
                                     view.sendToAdminAcct();
                                 } else {
-                                    RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name));
+                                    RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name, courses));
                                     RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
                                         @Override
                                         public void onCallback(StudentAccount studentAccount) {

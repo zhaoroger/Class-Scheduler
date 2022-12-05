@@ -11,6 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RegisterPresenter implements Contract.Presenter {
     RegistrationActivity view;
 
@@ -58,13 +61,40 @@ public class RegisterPresenter implements Contract.Presenter {
                                     view.sendToAdminAcct();
                                 } else {
                                     RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name, courses));
+                                    System.out.println("Started to switch to the student activity");
+                                    // ~~~~~~~~~~~~ Switching to StudentActivity ~~~~~~~~~~~~~~~~
+                                    // ~~~~~~~~~~~~~~ begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    RealtimeDatabase.getAllCourses(new AllCoursesCallback() {
+                                        @Override
+                                        public void onCallback(List<Course> courseList) {
+                                            System.out.println("initializing the student all courses list");
+                                            if (!StudentActivity.isInitiated) {
+                                                StudentModuleCommunicator.getInstance().setSortedAllCoursesArray(new ArrayList<>(courseList));
+                                                if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                                    view.sendToStudentAcct();
+                                                    view.displayMessage("Student login successful");
+                                                }
+                                            }
+                                        }
+                                    });
+                                    // username of the authenticated student should be passed to
+                                    // this call: here, I assumed uid[0] contains the username
                                     RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
                                         @Override
                                         public void onCallback(StudentAccount studentAccount) {
-                                        StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                            System.out.println("initializing the student profile courses");
+                                            if (!StudentActivity.isInitiated) {
+                                                StudentModuleCommunicator.getInstance().setStudentAccount(studentAccount);
+                                                if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                                    view.sendToStudentAcct();
+                                                    view.displayMessage("Student login successful");
+                                                }
+                                            }
                                         }
                                     });
-                                    view.sendToStudentAcct();
+                                    System.out.println("Done with to the student activity");
+                                    //~~~~~~~~~~~~ Switching to StudentActivity ~~~~~~~~~~~~~~~~~
+                                    // ~~~~~~~~~~~~~~ ends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                 }
                             }
                         });

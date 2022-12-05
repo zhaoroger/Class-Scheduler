@@ -9,11 +9,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginPresenter implements Contract.Presenter {
     private LoginActivity view;
-    private LoginModel model;
+    private com.example.b07project.LoginModel model;
 
-    public LoginPresenter(LoginModel model, LoginActivity view){
+    public LoginPresenter(com.example.b07project.LoginModel model, LoginActivity view){
         this.model = model;
         this.view = view;
     }
@@ -39,22 +42,51 @@ public class LoginPresenter implements Contract.Presenter {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     view.auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+
                         @Override
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            System.out.println("UID: "+ uid[0]);
+                            System.out.println("username : "+username);
                             uid[0] = view.auth.getCurrentUser().getUid();
                             model.loginStudent(uid[0], new LoginCallback() {
                                 @Override
                                 public void onCallback(boolean loggedIn) {
                                     if (task.isSuccessful() && loggedIn && !view.isAdmin.isChecked()) {
                                         view.progress.dismiss();
+                                        System.out.println("Started to switch to the student activity");
+                                        // ~~~~~~~~~~~~ Switching to StudentActivity ~~~~~~~~~~~~~~~~
+                                        // ~~~~~~~~~~~~~~ begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                        RealtimeDatabase.getAllCourses(new AllCoursesCallback() {
+                                            @Override
+                                            public void onCallback(List<Course> courseList) {
+                                                System.out.println("initializing the student all courses list");
+                                                if (!StudentActivity.isInitiated) {
+                                                    StudentModuleCommunicator.getInstance().setSortedAllCoursesArray(new ArrayList<>(courseList));
+                                                    if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                                        view.sendToStudentAcct();
+                                                        view.displayMessage("Student login successful");
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        // username of the authenticated student should be passed to
+                                        // this call: here, I assumed uid[0] contains the username
                                         RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
                                             @Override
                                             public void onCallback(StudentAccount studentAccount) {
-                                                //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                                System.out.println("initializing the student profile courses");
+                                                if (!StudentActivity.isInitiated) {
+                                                    StudentModuleCommunicator.getInstance().setStudentAccount(studentAccount);
+                                                    if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                                        view.sendToStudentAcct();
+                                                        view.displayMessage("Student login successful");
+                                                    }
+                                                }
                                             }
                                         });
-                                        view.sendToStudentAcct();
-                                        view.displayMessage("Student login successful");
+                                        System.out.println("Done with to the student activity");
+                                        //~~~~~~~~~~~~ Switching to StudentActivity ~~~~~~~~~~~~~~~~~
+                                        // ~~~~~~~~~~~~~~ ends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                                     }
                                 }
                             });

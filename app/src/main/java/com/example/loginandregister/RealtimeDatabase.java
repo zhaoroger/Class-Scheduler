@@ -41,7 +41,7 @@ public class RealtimeDatabase {
                     Log.e(null, "Error getting student data", task.getException());
                 } else {
                     DataSnapshot dataSnapshot = task.getResult();
-                    loginCallback.onCallback(dataSnapshot.exists() && studentAccount.getPassword() != null && studentAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                    loginCallback.onCallback(dataSnapshot.exists() && studentAccount.getUsername() != null && studentAccount.getUsername().equals(dataSnapshot.child("username").getValue(String.class)));
                 }
             }
         });
@@ -70,35 +70,6 @@ public class RealtimeDatabase {
                     Log.e(null, "Error getting StudentAccount from Firebase", task.getException());
                 } else {
                     getStudentAccountCallback.onCallback(task.getResult().getValue(StudentAccount.class));
-                }
-            }
-        });
-    }
-
-    /*
-    public static StudentAccount getStudentAccount(String username){
-        databaseReference.child("students").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("demo", "Error getting data", task.getException());
-                }
-                else {
-                    Log.i("demo", task.getResult().getValue().toString());
-                }
-            }
-        });
-        return new StudentAccount();
-    }*/
-
-    public static void getAdminAccount(String username, GetAdminAccountCallback getAdminAccountCallback) {
-        databaseReference.child(ADMINS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e(null, "Error getting AdminAccount from Firebase", task.getException());
-                } else {
-                    getAdminAccountCallback.onCallback(task.getResult().getValue(AdminAccount.class));
                 }
             }
         });

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginPresenter implements Contract.Presenter {
     private LoginModel model;
@@ -20,7 +21,7 @@ public class LoginPresenter implements Contract.Presenter {
     @Override
     public void Authenticate() {
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        String uid = view.user.getUid();
+        final String[] uid = new String[1];
         String username = view.getUsername();
         String password = view.getPassword();
 
@@ -28,10 +29,6 @@ public class LoginPresenter implements Contract.Presenter {
             view.Username.setError("Please enter a valid e-mail address");
         } else if (password.isEmpty()) {
             view.Password.setError("Please enter a valid password");
-        } else if (model.isStudent(uid) && view.isAdmin.isChecked()) {
-            view.Username.setError("This account is not registered as an admin");
-        } else if (!model.isStudent(uid) && !view.isAdmin.isChecked()) {
-            view.Username.setError("This account is not registered as a student");
         } else {
             view.progress.setMessage("Please wait...");
             view.progress.setTitle("Login");
@@ -41,24 +38,32 @@ public class LoginPresenter implements Contract.Presenter {
             view.auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        view.progress.dismiss();
-                        if (view.isAdmin.isChecked()) {
-                            view.sendToAdminAcct();
-                        } else {
-                            RealtimeDatabase.getStudentAccount(uid, new GetStudentAccountCallback() {
-                                @Override
-                                public void onCallback(StudentAccount studentAccount) {
-                                    //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                    view.auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            uid[0] = view.auth.getCurrentUser().getUid();
+                            if (task.isSuccessful()) {
+                                view.progress.dismiss();
+                                if (view.isAdmin.isChecked()) {
+                                    view.sendToAdminAcct();
+                                    view.displayMessage("Admin login successful");
+                                } else {
+                                    RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
+                                        @Override
+                                        public void onCallback(StudentAccount studentAccount) {
+                                            //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                            view.sendToStudentAcct();
+                                            view.displayMessage("Student login successful");
+                                        }
+                                    });
                                 }
-                            });
-                            view.sendToStudentAcct();
+                            } else {
+                                view.progress.dismiss();
+                                view.displayMessage("Login unsuccessful");
+                            }
                         }
-                        view.displayMessage("Login successful");
-                    } else {
-                        view.progress.dismiss();
-                        view.displayMessage("Login unsuccessful");
-                    }
+                    });
+
                 }
             });
         }

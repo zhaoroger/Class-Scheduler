@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,7 +21,7 @@ public class RegisterPresenter implements Contract.Presenter {
     @Override
     public void Authenticate(){
         String username = view.getUsername();
-        String uid = view.user.getUid();
+        final String[] uid = new String[1];
         String password = view.getPassword();
         String cPassword = view.ConfirmPassword.getText().toString();
         String Name = view.name.getText().toString();
@@ -45,15 +46,20 @@ public class RegisterPresenter implements Contract.Presenter {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         view.progress.dismiss();
-                        if (view.isAdmin.isChecked()) {
-                            RealtimeDatabase.addAdmin(new AdminAccount(uid, password, Name));
-                            view.sendToAdminAcct();
-                        } else {
-                            RealtimeDatabase.addStudent(new StudentAccount(uid, password, Name));
-                            view.sendToStudentAcct();
-                        }
+                        view.auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                            @Override
+                            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                uid[0] = view.user.getUid();
+                                if (view.isAdmin.isChecked()) {
+                                    RealtimeDatabase.addAdmin(new AdminAccount(uid[0], password, Name));
+                                    view.sendToAdminAcct();
+                                } else {
+                                    RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name));
+                                    view.sendToStudentAcct();
+                                }
+                            }
+                        });
                         view.displayMessage("Registration successful");
-
                     } else {
                         view.progress.dismiss();
                         view.displayMessage("Registration unsuccessful");

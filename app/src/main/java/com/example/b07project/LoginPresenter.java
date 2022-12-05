@@ -48,7 +48,7 @@ public class LoginPresenter implements Contract.Presenter {
                                         RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
                                             @Override
                                             public void onCallback(StudentAccount studentAccount) {
-                                                //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                                StudentModuleCommunicator.setStudentAccount(studentAccount);
                                                 view.sendToStudentAcct();
                                                 view.displayMessage("Student login successful");
                                             }

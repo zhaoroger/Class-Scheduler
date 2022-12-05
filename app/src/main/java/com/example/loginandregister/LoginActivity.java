@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements Contract.View{
         progress = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        presenter = new LoginPresenter(new LoginModel(), this);
+        presenter = new LoginPresenter(this);
 
         registerTransition.setOnClickListener(new View.OnClickListener() {
             @Override

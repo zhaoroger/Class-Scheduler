@@ -33,34 +33,31 @@ public class RealtimeDatabase {
         databaseReference.child(ADMINS).child(admin.getUsername()).setValue(admin);
     }
 
-    public static void loginStudent(StudentAccount studentAccount, LoginCallback loginCallback) {
-        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+    public static void loginStudent(String username, LoginCallback loginCallback) {
+        databaseReference.child(STUDENTS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e(null, "Error getting student data", task.getException());
                 } else {
-                    DataSnapshot dataSnapshot = task.getResult();
-                    loginCallback.onCallback(dataSnapshot.exists() && studentAccount.getUsername() != null && studentAccount.getUsername().equals(dataSnapshot.child("username").getValue(String.class)));
+                    loginCallback.onCallback(task.getResult().exists());
                 }
             }
         });
     }
 
-    public static void loginAdmin(AdminAccount adminAccount, LoginCallback loginCallback) {
-        databaseReference.child(ADMINS).child(adminAccount.getUsername()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+    public static void loginAdmin(String username, LoginCallback loginCallback) {
+        databaseReference.child(ADMINS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e(null, "Error getting admin data", task.getException());
                 } else {
-                    DataSnapshot dataSnapshot = task.getResult();
-                    loginCallback.onCallback(dataSnapshot.exists() && adminAccount.getPassword() != null && adminAccount.getPassword().equals(dataSnapshot.child(PASSWORD).getValue(String.class)));
+                    loginCallback.onCallback(task.getResult().exists());
                 }
             }
         });
     }
-
 
     public static void getStudentAccount(String username, GetStudentAccountCallback getStudentAccountCallback) {
         databaseReference.child(STUDENTS).child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -75,22 +72,51 @@ public class RealtimeDatabase {
         });
     }
 
-    public static void addCourse(Course course) {
-        ValueEventListener listener = new ValueEventListener() {
+    public static void syncStudentCourseList(StudentCourseCallback studentCourseCallback, StudentAccount studentAccount) {
+        databaseReference.child(STUDENTS).child(studentAccount.getUsername()).child(COURSES).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    databaseReference.child(COURSES).child(course.getCourseCode()).setValue(course);
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error syncing student course list with realtime database", task.getException());
+                } else {
+                    for (DataSnapshot studentCourseDataSnapshot : task.getResult().getChildren()) {
+                        String studentCourseCode = studentCourseDataSnapshot.getValue(String.class);
+
+                        databaseReference.child(COURSES).child(studentCourseCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.e(null, "Error syncing student course list with realtime database", task.getException());
+                                } else {
+                                    if (task.getResult().exists()) {
+                                        studentCourseCallback.onCallback(task.getResult().getValue(Course.class));
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             }
+        });
+    }
 
+    public static void updateStudentCourseList(StudentAccount student, ArrayList<String> studentCourseList) {
+        databaseReference.child(STUDENTS).child(student.getUsername()).child(COURSES).setValue(studentCourseList);
+    }
+
+    public static void addCourse(Course course) {
+        databaseReference.child(COURSES).child(course.getCourseCode()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(null, "Error adding course to realtime database", databaseError.toException());
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error adding course to realtime database", task.getException());
+                } else {
+                    if (!task.getResult().exists()) {
+                        databaseReference.child(COURSES).child(course.getCourseCode()).setValue(course);
+                    }
+                }
             }
-        };
-
-        databaseReference.child(COURSES).child(course.getCourseCode()).addListenerForSingleValueEvent(listener);
+        });
     }
 
     public static void removeCourse(Course course) {
@@ -101,8 +127,30 @@ public class RealtimeDatabase {
         databaseReference.child(COURSES).child(courseCode).removeValue();
     }
 
-    public static void editCourse(Course course) {
-        // TODO
+    public static void checkExists(String courseCode, CheckExistsCallback checkExistsCallback) {
+        databaseReference.child(COURSES).child(courseCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error checking if course exists", task.getException());
+                } else {
+                    checkExistsCallback.onCallback(task.getResult().exists());
+                }
+            }
+        });
+    }
+
+    public static void getCourse(String courseCode, GetCourseCallback getCourseCallback) {
+        databaseReference.child(COURSES).child(courseCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e(null, "Error getting course data from realtime database", task.getException());
+                } else {
+                    getCourseCallback.onCallback(task.getResult().getValue(Course.class));
+                }
+            }
+        });
     }
 
     public static ValueEventListener syncCourseList(CourseListCallback courseListCallback, Activity activity) {

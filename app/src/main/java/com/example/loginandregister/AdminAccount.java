@@ -26,6 +26,6 @@ final class AdminAccount extends Account implements Admin {
     @Override
     public void editCourse(Course course) {
         // TODO
-        RealtimeDatabase.editCourse(course);
+        //RealtimeDatabase.editCourse(course);
     }
 }

@@ -15,19 +15,21 @@ public class LoginModel {
     public LoginModel() {
     }
 
-    public static boolean isStudent(String name) {
-        final boolean[] isStudent = new boolean[1];
-        RealtimeDatabase.getStudentAccount(name, new GetStudentAccountCallback() {
+    public static void loginUser(String name) {
+        RealtimeDatabase.loginStudent(name, new LoginCallback() {
             @Override
-            public void onCallback(StudentAccount studentAccount) {
-                RealtimeDatabase.loginStudent(studentAccount, new LoginCallback() {
-                    @Override
-                    public void onCallback(boolean loggedIn) {
-                        isStudent[0] = loggedIn;
-                    }
-                });
+            public void onCallback(boolean loggedIn) {
+                // if loggedIn is true, do whatever task you need
+                // e.g. start the student activity
             }
         });
-        return isStudent[0];
+        RealtimeDatabase.loginAdmin(name, new LoginCallback() {
+            @Override
+            public void onCallback(boolean loggedIn) {
+                // if loggedIn is true, do whatever task you need
+                // e.g. start the admin activity
+            }
+        });
     }
+
 }

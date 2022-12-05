@@ -42,26 +42,38 @@ public class LoginPresenter implements Contract.Presenter {
                         @Override
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                             uid[0] = view.auth.getCurrentUser().getUid();
-                            if (task.isSuccessful()) {
-                                view.displayMessage(String.valueOf(model.isStudent(uid[0])));
-                                view.progress.dismiss();
-                                if (view.isAdmin.isChecked()) {
-                                    view.sendToAdminAcct();
-                                    view.displayMessage("Admin login successful");
-                                } else {
-                                    RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
-                                        @Override
-                                        public void onCallback(StudentAccount studentAccount) {
-                                            //StudentModuleCommunicator.setStudentAccount(studentAccount);
-                                            view.sendToStudentAcct();
-                                            view.displayMessage("Student login successful");
-                                        }
-                                    });
+                            RealtimeDatabase.loginStudent(uid[0], new LoginCallback() {
+                                @Override
+                                public void onCallback(boolean loggedIn) {
+                                    if (task.isSuccessful() && loggedIn && !view.isAdmin.isChecked()) {
+                                        view.progress.dismiss();
+                                        RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
+                                            @Override
+                                            public void onCallback(StudentAccount studentAccount) {
+                                                //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                                view.sendToStudentAcct();
+                                                view.displayMessage("Student login successful");
+                                            }
+                                        });
+                                    } else {
+                                        view.progress.dismiss();
+                                        //view.displayMessage("Login unsuccessful");
+                                    }
                                 }
-                            } else {
-                                view.progress.dismiss();
-                                view.displayMessage("Login unsuccessful");
-                            }
+                            });
+                            RealtimeDatabase.loginAdmin(uid[0], new LoginCallback() {
+                                @Override
+                                public void onCallback(boolean loggedIn) {
+                                    if (task.isSuccessful() && loggedIn && view.isAdmin.isChecked()) {
+                                        view.progress.dismiss();
+                                        view.sendToAdminAcct();
+                                        view.displayMessage("Admin login successful");
+                                    } else {
+                                        view.progress.dismiss();
+                                        //view.displayMessage("Login unsuccessful");
+                                    }
+                                }
+                            });
                         }
                     });
 

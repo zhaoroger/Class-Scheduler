@@ -26,7 +26,7 @@ import java.util.Locale;
 public class StudentTimelineTabFragment extends Fragment {
 
     private FragmentStudentTimelineTabBinding binding;
-    private StudentModuleCommunicator comm;
+    private static StudentModuleCommunicator comm;
     private ArrayAdapter<String> timelineCoursesStringArrayAdapter;
     public static boolean forceTimelineListViewReset;
 
@@ -86,7 +86,7 @@ public class StudentTimelineTabFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 

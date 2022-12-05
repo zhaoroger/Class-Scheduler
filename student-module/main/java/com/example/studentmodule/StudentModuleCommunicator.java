@@ -1,21 +1,16 @@
 package com.example.studentmodule;
 
-import android.app.Activity;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 public final class StudentModuleCommunicator {
+
     private static StudentModuleCommunicator communicator;
 
     private static StudentAccount studentAccount;
@@ -24,11 +19,13 @@ public final class StudentModuleCommunicator {
     private static ArrayList<Course> futureCoursesArray;
     private static ArrayList<String> timelineCoursesStringArray;
     private static ArrayList<Course> possibleFutureCoursesArray;
+
     private static boolean isAllCoursesSetupCompleted;
     private static boolean isStudentAccountSetupCompleted;
 
-    public static Activity activity;
     public static boolean isStudentModuleCommunicatorReady;
+
+
 
     private StudentModuleCommunicator() {
         isAllCoursesSetupCompleted = false;
@@ -41,27 +38,33 @@ public final class StudentModuleCommunicator {
         StudentModuleCommunicator.sortedAllCoursesArray = new ArrayList<Course>();
     }
 
+
     public void setSortedAllCoursesArray(ArrayList<Course> coursesArray) {
         StudentModuleCommunicator.sortedAllCoursesArray = coursesArray;
 
         ArrayList<Course> toBeRemoved = new ArrayList<Course>();
 
         for (Course course:StudentModuleCommunicator.sortedAllCoursesArray) {
-            if (course.getName() == null)
+            if (course.getName() == null) {
                 course.setName("");
-            if (course.getPrerequisites() == null)
+            }
+            if (course.getPrerequisites() == null) {
                 course.setPrerequisites(new ArrayList<String>());
+            }
         }
 
 
         Collections.sort(StudentModuleCommunicator.sortedAllCoursesArray);
         isAllCoursesSetupCompleted = true;
 
-        isStudentModuleCommunicatorReady = (isStudentAccountSetupCompleted && isAllCoursesSetupCompleted);
+        isStudentModuleCommunicatorReady =
+                (isStudentAccountSetupCompleted && isAllCoursesSetupCompleted);
 
-        if (isStudentModuleCommunicatorReady)
+        if (isStudentModuleCommunicatorReady) {
             modularSync();
+        }
     }
+
 
     public static StudentModuleCommunicator getInstance() {
         if (communicator == null) {
@@ -71,37 +74,34 @@ public final class StudentModuleCommunicator {
         return communicator;
     }
 
+
     public void setStudentAccount(StudentAccount newStudentAccount) {
-        if (newStudentAccount.getCourses() == null)
+        if (newStudentAccount.getCourses() == null) {
             newStudentAccount.setCourses(new ArrayList<String>());
+        }
 
         StudentModuleCommunicator.studentAccount = newStudentAccount;
-        //StudentModuleCommunicator.sortedStudentCoursesArray =
-        //        new ArrayList<Course>(StudentModuleCommunicator.studentAccount.getCourses());
-        /*
-        RealtimeDatabase.syncStudentCourseList(new StudentCourseCallback() {
-            @Override
-            public void onCallback(Course studentCourse) {
 
-            }
-        }, newStudentAccount);
-        */
         StudentModuleCommunicator.sortedStudentCoursesArray = new ArrayList<Course>();
-        for (String courseCode:newStudentAccount.getCourses())
+        for (String courseCode:newStudentAccount.getCourses()) {
             StudentModuleCommunicator.sortedStudentCoursesArray.add(stringToCourse(courseCode));
-
+        }
         Collections.sort(StudentModuleCommunicator.sortedStudentCoursesArray);
+
         isStudentAccountSetupCompleted = true;
 
-        isStudentModuleCommunicatorReady = (isStudentAccountSetupCompleted && isAllCoursesSetupCompleted);
+        isStudentModuleCommunicatorReady =
+                (isStudentAccountSetupCompleted && isAllCoursesSetupCompleted);
 
-        if (isStudentModuleCommunicatorReady)
+        if (isStudentModuleCommunicatorReady) {
             modularSync();
+        }
     }
 
     public StudentAccount getStudentAccount() {
-        if (studentAccount == null)
+        if (studentAccount == null) {
             throw new RuntimeException("The student account was not passed on to the module communicator.");
+        }
         return studentAccount;
     }
 
@@ -127,26 +127,29 @@ public final class StudentModuleCommunicator {
     public String generateSemesterLabel(int yearRightNow, int monthRightNow, int semester) {
         int currentSemester;
 
-        if (monthRightNow > 8)
+        if (monthRightNow > 8) {
             currentSemester = 0;
-        else if (monthRightNow < 5)
+        } else if (monthRightNow < 5) {
             currentSemester = 1;
-        else
+        } else {
             currentSemester = 2;
+        }
 
         for (int i=0; i<semester; i++) {
             currentSemester += 1;
-            if (currentSemester%3 == 1)
+            if (currentSemester%3 == 1) {
                 yearRightNow += 1;
+            }
         }
 
         String s = "";
-        if (currentSemester%3 == 0)
+        if (currentSemester%3 == 0) {
             s = "Fall";
-        else if (currentSemester%3 == 1)
+        } else if (currentSemester%3 == 1) {
             s = "Winter";
-        else
+        } else {
             s = "Summer";
+        }
 
         return  "<< "+s + " Semester " + " | " + " Year " + yearRightNow +" >>";
     }
@@ -160,26 +163,27 @@ public final class StudentModuleCommunicator {
 
     public void updateDataBase() {
         ArrayList<String> studentCourses = new ArrayList<>();
-        for (Course course:sortedStudentCoursesArray)
+        for (Course course:sortedStudentCoursesArray) {
             studentCourses.add(course.getCourseCode());
+        }
         StudentModuleCommunicator.studentAccount.setCourses(studentCourses);
-        //code to push the account to Firebase
 
-        if (studentAccount.getUsername() == null)
-            throw new RuntimeException("username is null");
+        if (studentAccount.getUsername() == null) {
+            throw new RuntimeException("Student username is null");
+        }
+        if (studentAccount.getPassword() == null) {
+            throw new RuntimeException("Student password is null");
+        }
+        if (studentAccount.getName() == null) {
+            throw new RuntimeException("Student name is null");
+        }
 
-        if (studentAccount.getPassword() == null)
-            throw new RuntimeException("password is null");
-
-        if (studentAccount.getName() == null)
-            throw new RuntimeException("name is null");
-
-        RealtimeDatabase.syncCourseList(new CourseListCallback() {
+        RealtimeDatabase.getAllCourses(new AllCoursesCallback() {
             @Override
-            public void onCallback(List<Course> courseList, Activity activity) {
+            public void onCallback(List<Course> courseList) {
                 setSortedAllCoursesArray(new ArrayList<Course>(courseList));
             }
-        }, activity);
+        });
 
         RealtimeDatabase.updateStudentCourseList(
                 StudentModuleCommunicator.studentAccount,
@@ -188,13 +192,14 @@ public final class StudentModuleCommunicator {
     }
 
     /*
-    If course exists in futureCoursesArray, it will be removed. If not, it will be added.
+    If a course exists in futureCoursesArray, it will be removed. If not, it will be added.
      */
     public void alterCourseStateInFutureCourses(Course course){
-        if (StudentModuleCommunicator.futureCoursesArray.contains(course))
+        if (StudentModuleCommunicator.futureCoursesArray.contains(course)) {
             StudentModuleCommunicator.futureCoursesArray.remove(course);
-        else
+        } else {
             StudentModuleCommunicator.futureCoursesArray.add(course);
+        }
         modularSync();
     }
 
@@ -214,8 +219,8 @@ public final class StudentModuleCommunicator {
     }
 
     private void updateTimelineCoursesStringArray() {
+        //Getting realtime date to generate timeline accordingly
         Date date = Calendar.getInstance().getTime();
-
         SimpleDateFormat yearFormat =
                 new SimpleDateFormat("yyyy", Locale.getDefault());
         SimpleDateFormat monthFormat =
@@ -249,8 +254,9 @@ public final class StudentModuleCommunicator {
                         fallStack.add(course);
                         fallLabel = generateSemesterLabel(year, month, semester);
                     }
-                    if (fallStack.size() == 6)
+                    if (fallStack.size() == 6) {
                         break;
+                    }
                 }
                 wholeStack.removeAll(fallStack);
             } else {
@@ -264,8 +270,9 @@ public final class StudentModuleCommunicator {
                         winterStack.add(course);
                         winterLabel = generateSemesterLabel(year, month, semester);
                     }
-                    if (winterStack.size() == 6)
+                    if (winterStack.size() == 6) {
                         break;
+                    }
                 }
                 wholeStack.removeAll(winterStack);
             } else {
@@ -327,17 +334,22 @@ public final class StudentModuleCommunicator {
     }
 
     private Course stringToCourse(String courseCode) {
-        for (Course course:sortedAllCoursesArray)
-            if (course.getCourseCode().equals(courseCode))
+        for (Course course:sortedAllCoursesArray) {
+            if (course.getCourseCode().equals(courseCode)) {
                 return course;
+            }
+        }
         return null;
     }
 
     private void updatePossibleFutureCoursesArray() {
-        //ArrayList<Course> toBeRemoved = new ArrayList<Course>();
         ArrayList<Course> toBeAdded = new ArrayList<Course>();
 
         /*
+        // an alternative to StudentModuleCommunicator.possibleFutureCoursesArray.clear();
+        // which seems to be somehow not working
+
+        ArrayList<Course> toBeRemoved = new ArrayList<Course>();
         for (Course course:StudentModuleCommunicator.possibleFutureCoursesArray) {
             for (String c:course.getPrerequisites()) {
                 if (!StudentModuleCommunicator.sortedStudentCoursesArray.contains(stringToCourse(c)))
@@ -347,8 +359,6 @@ public final class StudentModuleCommunicator {
                     }
             }
         }
-
-
         System.out.println("Found " + toBeRemoved.size() + " courses that have at least one prereq not met");
 
         StudentModuleCommunicator.possibleFutureCoursesArray.removeAll(toBeRemoved);
@@ -372,7 +382,9 @@ public final class StudentModuleCommunicator {
 
         for (Course course:toBeAdded) {
             if (!StudentModuleCommunicator.possibleFutureCoursesArray.contains(course)
-                    && !StudentModuleCommunicator.sortedStudentCoursesArray.contains(course)) {
+                    && !StudentModuleCommunicator.sortedStudentCoursesArray.contains(course)
+                    && (course.isOfferedInFall() || course.isOfferedInWinter() || course.isOfferedInSummer())
+            ) {
                 StudentModuleCommunicator.possibleFutureCoursesArray.add(course);
             }
         }

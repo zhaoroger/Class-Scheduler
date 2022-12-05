@@ -1,6 +1,6 @@
 package com.example.studentmodule;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,9 +19,6 @@ import android.widget.Toast;
 
 import com.example.studentmodule.databinding.FragmentStudentCoursesTabBinding;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class StudentCoursesTabFragment extends Fragment {
 

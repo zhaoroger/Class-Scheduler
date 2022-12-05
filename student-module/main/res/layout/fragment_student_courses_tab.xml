@@ -104,7 +104,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="15dp"
-                android:text="You can modify your courses by long holding one. You can also save them for the next time!"
+                android:text="Modify the courses you've taken by long holding on one. You can save your changes for the next time!"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@+id/coursesListView"
                 app:layout_constraintEnd_toStartOf="@+id/studentSaveCoursesFloatingActionButton"

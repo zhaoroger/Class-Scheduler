@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 RealtimeDatabase.syncCourseList(new CourseListCallback() {
                     @Override
                     public void onCallback(List<Course> courseList, Activity activity) {
@@ -70,6 +71,19 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }, MainActivity.this);
+                */
+
+                RealtimeDatabase.getAllCourses(new AllCoursesCallback() {
+                    @Override
+                    public void onCallback(List<Course> courseList) {
+                        if (!StudentActivity.isInitiated) {
+                            StudentModuleCommunicator.getInstance().setSortedAllCoursesArray(new ArrayList<>(courseList));
+                            if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                switchToStudentActivity();
+                            }
+                        }
+                    }
+                });
 
                 RealtimeDatabase.getStudentAccount("studentusername1", new GetStudentAccountCallback() {
                     @Override

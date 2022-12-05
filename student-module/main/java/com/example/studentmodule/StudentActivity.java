@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 /*
+
 Make sure to add the following to the manifest:
 
 <activity
@@ -45,7 +46,7 @@ public class StudentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isInitiated = true;
-        StudentModuleCommunicator.activity = StudentActivity.this;
+        //StudentModuleCommunicator.activity = StudentActivity.this;
         super.onCreate(savedInstanceState);
         this.setTitle(StudentModuleCommunicator.getInstance().getStudentAccount().getName());
         binding = ActivityStudentBinding.inflate(getLayoutInflater());

@@ -43,6 +43,7 @@ public class LoginPresenter implements Contract.Presenter {
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                             uid[0] = view.auth.getCurrentUser().getUid();
                             if (task.isSuccessful()) {
+                                view.displayMessage(String.valueOf(model.isStudent(uid[0])));
                                 view.progress.dismiss();
                                 if (view.isAdmin.isChecked()) {
                                     view.sendToAdminAcct();

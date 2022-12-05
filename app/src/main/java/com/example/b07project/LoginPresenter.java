@@ -11,8 +11,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginPresenter implements Contract.Presenter {
     private LoginActivity view;
+    private LoginModel model;
 
-    public LoginPresenter(LoginActivity view){
+    public LoginPresenter(LoginModel model, LoginActivity view){
+        this.model = model;
         this.view = view;
     }
 
@@ -40,7 +42,7 @@ public class LoginPresenter implements Contract.Presenter {
                         @Override
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                             uid[0] = view.auth.getCurrentUser().getUid();
-                            RealtimeDatabase.loginStudent(uid[0], new LoginCallback() {
+                            model.loginStudent(uid[0], new LoginCallback() {
                                 @Override
                                 public void onCallback(boolean loggedIn) {
                                     if (task.isSuccessful() && loggedIn && !view.isAdmin.isChecked()) {
@@ -48,25 +50,21 @@ public class LoginPresenter implements Contract.Presenter {
                                         RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
                                             @Override
                                             public void onCallback(StudentAccount studentAccount) {
-                                                StudentModuleCommunicator.setStudentAccount(studentAccount);
-                                                view.sendToStudentAcct();
-                                                view.displayMessage("Student login successful");
+                                                //StudentModuleCommunicator.setStudentAccount(studentAccount);
                                             }
                                         });
-                                    } else {
-                                        view.progress.dismiss();
+                                        view.sendToStudentAcct();
+                                        view.displayMessage("Student login successful");
                                     }
                                 }
                             });
-                            RealtimeDatabase.loginAdmin(uid[0], new LoginCallback() {
+                            model.loginAdmin(uid[0], new LoginCallback() {
                                 @Override
                                 public void onCallback(boolean loggedIn) {
+                                    view.progress.dismiss();
                                     if (task.isSuccessful() && loggedIn && view.isAdmin.isChecked()) {
-                                        view.progress.dismiss();
                                         view.sendToAdminAcct();
                                         view.displayMessage("Admin login successful");
-                                    } else {
-                                        view.progress.dismiss();
                                     }
                                 }
                             });

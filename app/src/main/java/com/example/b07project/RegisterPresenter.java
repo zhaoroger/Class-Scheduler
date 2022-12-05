@@ -55,6 +55,12 @@ public class RegisterPresenter implements Contract.Presenter {
                                     view.sendToAdminAcct();
                                 } else {
                                     RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name));
+                                    RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
+                                        @Override
+                                        public void onCallback(StudentAccount studentAccount) {
+                                            //StudentModuleCommunicator.setStudentAccount(studentAccount);
+                                        }
+                                    });
                                     view.sendToStudentAcct();
                                 }
                             }

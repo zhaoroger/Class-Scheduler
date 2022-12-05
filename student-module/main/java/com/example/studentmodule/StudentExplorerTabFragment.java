@@ -32,6 +32,8 @@ public class StudentExplorerTabFragment extends Fragment {
     private ArrayAdapter<Course> possibleFutureCoursesArrayAdapter;
     private static StudentModuleCommunicator comm;
 
+    public static boolean forceFutureCoursesListViewReset;
+
     private void makeToast(String s) {
         Toast toast = Toast.makeText(binding.getRoot().getContext(), s, Toast.LENGTH_SHORT);
         toast.show();
@@ -51,11 +53,38 @@ public class StudentExplorerTabFragment extends Fragment {
         return s;
     }
 
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
+
+    private void visuallyAdjustExplorerTab() {
+        /*
+        for (int i=0; i < possibleFutureCoursesArrayAdapter.getCount(); i++) {
+            View view = getViewByPosition(i, binding.futureCoursesListView);
+            view.setSelected(false);
+        }
+         */
+        if (forceFutureCoursesListViewReset) {
+            binding.futureCoursesListView.setAdapter(possibleFutureCoursesArrayAdapter);
+            forceFutureCoursesListViewReset = false;
+        }
+        else {
+            possibleFutureCoursesArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("studentExplorerTab", "onResume() is called");
-        possibleFutureCoursesArrayAdapter.notifyDataSetChanged();
+        visuallyAdjustExplorerTab();
     }
 
     @Override
@@ -93,12 +122,13 @@ public class StudentExplorerTabFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        visuallyAdjustExplorerTab();
 
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        //binding = null;
     }
 }

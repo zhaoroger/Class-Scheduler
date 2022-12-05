@@ -15,9 +15,25 @@ import com.example.studentmodule.databinding.ActivityStudentBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+/*
+Make sure to add the following to the manifest:
+
+<activity
+    android:name=".StudentActivity"
+    android:exported="false">
+    <meta-data
+        android:name="android.app.lib_name"
+        android:value="" />
+</activity>
+
+
+ */
+
 public class StudentActivity extends AppCompatActivity {
 
     private ActivityStudentBinding binding;
+
+    public static boolean isInitiated;
 
     public void switchToMainActivity() {
         Intent switchActivityIntent = new Intent(this, MainActivity.class);
@@ -28,6 +44,8 @@ public class StudentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isInitiated = true;
+        StudentModuleCommunicator.activity = StudentActivity.this;
         super.onCreate(savedInstanceState);
         this.setTitle(StudentModuleCommunicator.getInstance().getStudentAccount().getName());
         binding = ActivityStudentBinding.inflate(getLayoutInflater());
@@ -57,5 +75,11 @@ public class StudentActivity extends AppCompatActivity {
 
         studentTabLayoutMediator.attach();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        isInitiated = false;
+        super.onDestroy();
     }
 }

@@ -5,13 +5,16 @@ abstract class Account {
     String password;
     String name;
 
+    public Account() {
+    }
+
     public Account(String username, String password, String name) {
         this.username = username;
         this.password = password;
         this.name = name;
     }
 
-    protected String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -19,7 +22,7 @@ abstract class Account {
         this.username = username;
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -27,7 +30,7 @@ abstract class Account {
         this.password = password;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 

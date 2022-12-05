@@ -1,5 +1,6 @@
 package com.example.studentmodule;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.example.studentmodule.databinding.FragmentStudentCoursesTabBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class StudentCoursesTabFragment extends Fragment {
 
@@ -30,6 +32,11 @@ public class StudentCoursesTabFragment extends Fragment {
     private static StudentModuleCommunicator comm;
 
     private static Course promptedCourse;
+
+    private void visuallyAdjustCoursesTab() {
+        allCoursesArrayAdapter.notifyDataSetChanged();
+        studentCoursesArrayAdapter.notifyDataSetChanged();
+    }
 
     private void promptToApplyChanges(String message) {
 
@@ -60,14 +67,23 @@ public class StudentCoursesTabFragment extends Fragment {
         if (!comm.getSortedStudentCoursesArray().contains(newCourse)) {
             Log.i("addCourse", "passed if");
             comm.addCourseToSortedStudentCourses(newCourse);
-            studentCoursesArrayAdapter.notifyDataSetChanged();
+            StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
+            StudentTimelineTabFragment.forceTimelineListViewReset = true;
+            visuallyAdjustCoursesTab();
         }
     }
+
     private void removeCourseFromStudentCourses(StudentModuleCommunicator comm) {
         if (promptedCourse != null) {
             if (comm.getSortedStudentCoursesArray().contains(promptedCourse)) {
                 comm.removeCourseFromSortedStudentCourses(promptedCourse);
-                studentCoursesArrayAdapter.notifyDataSetChanged();
+                if (comm.getFutureCoursesArray().contains(promptedCourse)) {
+                    comm.alterCourseStateInFutureCourses(promptedCourse);
+                }
+
+                StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
+                StudentTimelineTabFragment.forceTimelineListViewReset = true;
+                visuallyAdjustCoursesTab();
             }
             promptedCourse = null;
         }
@@ -91,6 +107,7 @@ public class StudentCoursesTabFragment extends Fragment {
                 this.getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 comm.getSortedAllCoursesArray()
+                //comm.getPossibleFutureCoursesArray()
         );
         binding.coursesSpinner.setAdapter(allCoursesArrayAdapter);
 
@@ -118,16 +135,20 @@ public class StudentCoursesTabFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        visuallyAdjustCoursesTab();
 
         binding.addCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Course newCourse;
-                newCourse = (Course) binding.coursesSpinner.getSelectedItem();
-                if (comm.getSortedStudentCoursesArray().contains(newCourse)) {
-                    makeToast(newCourse.getCourseCode() + " was already added.");
-                } else {
-                    addCourseToStudentCourses(comm, newCourse);
+                if (!allCoursesArrayAdapter.isEmpty()) {
+                    Course newCourse;
+                    newCourse = (Course) binding.coursesSpinner.getSelectedItem();
+                    if (comm.getSortedStudentCoursesArray().contains(newCourse)) {
+                        makeToast(newCourse.getCourseCode() + " is already added.");
+                    } else {
+                        addCourseToStudentCourses(comm, newCourse);
+                        visuallyAdjustCoursesTab();
+                    }
                 }
             }
         });
@@ -136,6 +157,10 @@ public class StudentCoursesTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 comm.updateDataBase();
+                StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
+                StudentTimelineTabFragment.forceTimelineListViewReset = true;
+                visuallyAdjustCoursesTab();
+                makeToast("All saved!");
             }
         });
 
@@ -144,6 +169,7 @@ public class StudentCoursesTabFragment extends Fragment {
             public void onClick(View view) {
                 Intent switchActivityIntent = new Intent(getActivity(), MainActivity.class);
                 switchActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                StudentActivity.isInitiated = false;
                 startActivity(switchActivityIntent);
             }
         });
@@ -152,8 +178,7 @@ public class StudentCoursesTabFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        allCoursesArrayAdapter.notifyDataSetChanged();
-        studentCoursesArrayAdapter.notifyDataSetChanged();
+        visuallyAdjustCoursesTab();
     }
 
     @Override

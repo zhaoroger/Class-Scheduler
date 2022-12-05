@@ -1,5 +1,6 @@
 package com.example.studentmodule;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,13 +21,18 @@ import com.example.studentmodule.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
+    /*
+    Switches from the current activity to the student activity
+     */
     private void switchToStudentActivity() {
         Intent switchActivityIntent = new Intent(this, StudentActivity.class);
         switchActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -46,113 +52,42 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+
+        // ~~~~~~~~~~~~~~~~~  Initializing StudentModuleCommunicator ~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~  and when ready, switching to StudentActivity ~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Log.i("Main Activity", "Switching to Student Activity.");
+                RealtimeDatabase.syncCourseList(new CourseListCallback() {
+                    @Override
+                    public void onCallback(List<Course> courseList, Activity activity) {
+                        if (!StudentActivity.isInitiated) {
+                            StudentModuleCommunicator.getInstance().setSortedAllCoursesArray(new ArrayList<>(courseList));
+                            if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                switchToStudentActivity();
+                            }
+                        }
+                    }
+                }, MainActivity.this);
 
-
-                //basic initialization
-                AllCourses allCourses = AllCourses.getInstance();
-                allCourses.addCourse(
-                        new Course(
-                                "Introduction to Computer Science I",
-                                "CSCA08",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Introduction to Computer Science II with a name that is really long!",
-                                "CSCA48",
-                                false,
-                                true,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Introduction to Programming",
-                                "CSCA10",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Introduction to Physics I",
-                                "PHYA10",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Introduction to Physics II",
-                                "PHYA21",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Calculus I",
-                                "MATA30",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Calculus II",
-                                "MATA36",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Project course",
-                                "PHYD01",
-                                true,
-                                false,
-                                false
-                        )
-                );
-                allCourses.addCourse(
-                        new Course(
-                                "Reading course",
-                                "PHD72",
-                                true,  //to be corrected when a course is offered in two sessions
-                                false,
-                                true
-                        )
-                );
-
-                //sample logged in account
-                StudentAccount studentAccount = new StudentAccount(
-                        "lkelvin",
-                        "Password",
-                        "Lord Kelvin"
-                );
-                LinkedHashSet<Course> studentCourses = new LinkedHashSet<Course>();
-                studentCourses.add(new Course("Introduction to Programming", "CSCA08"));
-                studentAccount.setCourses(studentCourses);
-
-                //fetching student account to the student activity page
-                StudentModuleCommunicator.getInstance().setStudentAccount(studentAccount);
-                switchToStudentActivity();
+                RealtimeDatabase.getStudentAccount("studentusername1", new GetStudentAccountCallback() {
+                    @Override
+                    public void onCallback(StudentAccount studentAccount) {
+                        if (!StudentActivity.isInitiated) {
+                            StudentModuleCommunicator.getInstance().setStudentAccount(studentAccount);
+                            if (StudentModuleCommunicator.isStudentModuleCommunicatorReady) {
+                                switchToStudentActivity();
+                            }
+                        }
+                    }
+                });
             }
         });
+        // ~~~~~~~~~~~~~~~~~  Initializing StudentModuleCommunicator ~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~  and when ready, switching to StudentActivity ~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     }
 
     @Override

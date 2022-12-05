@@ -28,6 +28,7 @@ public class StudentTimelineTabFragment extends Fragment {
     private FragmentStudentTimelineTabBinding binding;
     private StudentModuleCommunicator comm;
     private ArrayAdapter<String> timelineCoursesStringArrayAdapter;
+    public static boolean forceTimelineListViewReset;
 
     public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
@@ -42,7 +43,12 @@ public class StudentTimelineTabFragment extends Fragment {
     }
 
     private void visuallyAdjustTimelineListView() {
-        timelineCoursesStringArrayAdapter.notifyDataSetChanged();
+        if (forceTimelineListViewReset) {
+            binding.timelineListView.setAdapter(timelineCoursesStringArrayAdapter);
+            forceTimelineListViewReset = false;
+        } else {
+            timelineCoursesStringArrayAdapter.notifyDataSetChanged();
+        }
         /*
         for (int i=0; i < timelineCoursesStringArrayAdapter.getCount(); i++) {
             if (timelineCoursesStringArrayAdapter.getItem(i).contains("~~")) {
@@ -52,6 +58,7 @@ public class StudentTimelineTabFragment extends Fragment {
             }
         }
         */
+
         if (timelineCoursesStringArrayAdapter.isEmpty())
             binding.timelineTopTextView
                     .setText("You can start planning by choosing courses in the explorer tab!");
@@ -64,7 +71,7 @@ public class StudentTimelineTabFragment extends Fragment {
             int year = Integer.parseInt(yearFormat.format(date));
             int month = Integer.parseInt(monthFormat.format(date));
 
-            Log.i("date", "" + year + "" + month);
+
             String semester;
             if (4 < month && month < 9)
                 semester = "Summer ";
@@ -102,18 +109,6 @@ public class StudentTimelineTabFragment extends Fragment {
                 visuallyAdjustTimelineListView();
             }
         });
-        //binding.timelineListView.setClickable(true);
-        /*
-        binding.timelineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //comm.alterCourseStateInFutureCourses(timelineCoursesStringArrayAdapter.getItem(position));
-                //android:background="?android:attr/activatedBackgroundIndicator" in xml
-                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                view.setClickable(false);
-            }
-        });
-        */
 
         visuallyAdjustTimelineListView();
         return binding.getRoot();
@@ -121,22 +116,18 @@ public class StudentTimelineTabFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //timelineCoursesStringArrayAdapter.notifyDataSetChanged();
         visuallyAdjustTimelineListView();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //timelineCoursesStringArrayAdapter.notifyDataSetChanged();
         visuallyAdjustTimelineListView();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
 }

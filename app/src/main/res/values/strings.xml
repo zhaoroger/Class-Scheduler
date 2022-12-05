@@ -2,7 +2,7 @@
     <string name="app_name">B07 Project</string>
     <string name="username">Username</string>
     <string name="add_course">Add Course</string>
-    <string name="save_and_logout">Save and Logout</string>
+    <string name="save_and_logout">Logout</string>
     <string name="course">Course:</string>
     <string name="course_code">Course Code:</string>
     <string name="offering_sessions">Offering Sessions:</string>

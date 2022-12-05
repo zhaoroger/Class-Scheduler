@@ -10,11 +10,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginPresenter implements Contract.Presenter {
-    private LoginModel model;
     private LoginActivity view;
 
-    public LoginPresenter(LoginModel model, LoginActivity view){
-        this.model = model;
+    public LoginPresenter(LoginActivity view){
         this.view = view;
     }
 

@@ -1,4 +1,4 @@
-package com.example.loginandregister;
+package com.example.b07project;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,1 +1,10 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Test my code
+
+What are you planning on doing today?
+	- Integrate my code with the Admin module
+
+Any impediments or stumbling blocks?
+	- I was able to run a Driver.java file in Android Studio to test my code, but re-compiling the code after running it for the first time had no effect. Android Studio kept running an old version of my code, it seemed that none of my new changes got compiled.

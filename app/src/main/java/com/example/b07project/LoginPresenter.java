@@ -26,13 +26,20 @@ public class LoginPresenter implements Contract.Presenter {
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         final String username[] = new String[2];
         username[0] = view.getUsername();
-        username[1] = username[0].substring(0, username[0].indexOf("."));
         String password = view.getPassword();
+        
+        if (username[0].contains(".")) {
+            username[1] = username[0].substring(0, username[0].indexOf("."));
+        } else {
+            view.Username.setError("Please enter a valid e-mail address");
+        }
 
         if(!username[0].matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
         } else if (password.isEmpty()) {
             view.Password.setError("Please enter a valid password");
+        } else if (password.isEmpty() || username[0].isEmpty()) {
+            view.Username.setError("Please fill out all fields");
         } else {
             view.progress.setMessage("Please wait...");
             view.progress.setTitle("Login");

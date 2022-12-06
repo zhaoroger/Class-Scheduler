@@ -34,3 +34,15 @@ What are you planning on doing today?
 Any impediments or stumbling blocks?
 	- Don't know how
 	- Other courses
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- try to integrate firebase to the StudentACtivity
+
+Any impediments or stumbling blocks?
+	- I have difficulty initializing StudentModuleCommunicator

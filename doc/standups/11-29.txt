@@ -1,1 +1,12 @@
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Modify Course.java to use ArrayList<String> to store prerequisites
+	- Refactor RealtimeDatabase methods to write Student, Admin, Course to Firebase as objects, instead of writing the individual fields of each object separately
+
+What are you planning on doing today?
+	- Implement editCourse
+
+Any impediments or stumbling blocks?
+	- Nothing
 

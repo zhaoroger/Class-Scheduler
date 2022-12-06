@@ -26,3 +26,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- merging is super hard
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Helped with other members and intigrating
+
+What are you planning on doing today?
+	- Actually integrate everything
+
+Any impediments or stumbling blocks?
+	- Still not sure how

@@ -22,3 +22,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- very busy with other courses
+
+
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Implement getAllCourses in RealtimeDatabase.java
+
+What are you planning on doing today?
+	- Implement methods for storing Student and Admin data to Firebase
+
+Any impediments or stumbling blocks?
+	- Nothing

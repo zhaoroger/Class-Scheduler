@@ -1,1 +1,14 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Fully integrate my code with the Admin module
+	- Refactor Course.java
+	- Add syncStudentCourseList to RealtimeDatabase.java
+	- Refactor checkExists method in RealtimeDatabase.java
+	- Add getCourse to RealtimeDatabase.java
+
+What are you planning on doing today?
+	- Integrate my code with the Login/Signup module and Student module
+
+Any impediments or stumbling blocks?
+	- Other course work

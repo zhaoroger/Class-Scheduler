@@ -28,7 +28,7 @@ What have you done since yesterday?
 	- Nothing
 
 What are you planning on doing today?
-	- Begin implementing the backend
+	- Begin implementing the backend for admin
 
 Any impediments or stumbling blocks?
 	- Nothing

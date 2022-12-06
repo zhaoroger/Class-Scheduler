@@ -1,1 +1,14 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Fix Firebase connection issue
+	- Integrate Firebase module with Admin module
+	- Implement methods in RealtimeDatabase.java
+	- Add callback interfaces
+
+What are you planning on doing today?
+	- Fully integrate my Firebase module with the Admin module
+	- Start integrating my Firebase module with the Login/Signup and Student modules
+
+Any impediments or stumbling blocks?
+	- Other course work

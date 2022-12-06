@@ -1,3 +1,5 @@
+Met up as a group in person to try to merge it all
+
 Name: Hangyu Zhu
 
 What have you done since yesterday?
@@ -20,3 +22,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- my code is buggier than I thought and it's taking a lot of time to sort them out before I can move on to the next task
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Integrate with other parts
+
+Any impediments or stumbling blocks?
+	- Don't know how
+	- Other courses

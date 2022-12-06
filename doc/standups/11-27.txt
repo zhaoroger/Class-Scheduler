@@ -34,3 +34,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Nothing
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Wifi came back in the evening, added the UI and button functionality for Edit Window
+
+What are you planning on doing today?
+	- Add the add window functionality
+
+Any impediments or stumbling blocks?
+	- Nothing

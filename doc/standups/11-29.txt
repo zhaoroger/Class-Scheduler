@@ -21,3 +21,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other course work
+	
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Begin implementing the backend
+
+Any impediments or stumbling blocks?
+	- Nothing

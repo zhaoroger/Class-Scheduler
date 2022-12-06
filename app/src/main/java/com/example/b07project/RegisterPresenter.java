@@ -25,12 +25,17 @@ public class RegisterPresenter implements Contract.Presenter {
     public void Authenticate(){
         final String username[] = new String[2];
         username[0] = view.getUsername();
-        username[1] = username[0].substring(0, username[0].indexOf("."));
         String password = view.getPassword();
         String cPassword = view.ConfirmPassword.getText().toString();
         String Name = view.name.getText().toString();
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         List<String> courses = new ArrayList<String>();
+        
+        if (username[0].contains(".")) {
+            username[1] = username[0].substring(0, username[0].indexOf("."));
+        } else {
+            view.Username.setError("Please enter a valid e-mail address");
+        }
 
         if (!username[0].matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");

@@ -8,3 +8,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- As of today I can no longer read or write data to Firebase. My code is correct, the project is connected to Firebase, read/write permissions are set up correctly, and I have not changed any settings. I’m not sure why my code suddenly stopped working.
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- debugging my code
+
+What are you planning on doing today?
+	- continue trying to make my module write users into the database
+
+Any impediments or stumbling blocks?
+	- my code is buggier than I thought and it's taking a lot of time to sort them out before I can move on to the next task

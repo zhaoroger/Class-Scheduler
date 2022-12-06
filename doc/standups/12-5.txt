@@ -11,3 +11,16 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Nothing
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- login/signup module now works properly with admin module
+
+What are you planning on doing today?
+	- get login/signup module to work with student module
+
+Any impediments or stumbling blocks?
+	- merging is still super hard
+	- so many bugs

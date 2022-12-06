@@ -1,1 +1,13 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Add updateStudentCourseList to RealtimeDatabase.java
+	- Update Account.java to use the correct access modifiers
+	- Update loginStudent and loginAdmin in RealtimeDatabase.java and fully integrate with the Login/Signup module
+	- Add getAllCourses to RealtimeDatabase.java and fully integrate with the Student module
+
+What are you planning on doing today?
+	- Submit the project
+
+Any impediments or stumbling blocks?
+	- Nothing

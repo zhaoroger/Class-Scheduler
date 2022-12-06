@@ -37,3 +37,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Still not sure how
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- try to integrate StudentActivity into the rest of the app
+
+Any impediments or stumbling blocks?
+	- databinding is not importable for some reason

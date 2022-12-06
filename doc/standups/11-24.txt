@@ -20,3 +20,18 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- many of the firebase methods are unfamiliar to me
+
+
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Create a Firebase Realtime Database
+	- Create RealtimeDatabase class
+	- Implement addCourse and removeCourse methods
+	- Delete allCourses class (functionality will be moved to RealtimeDatabase class)
+
+What are you planning on doing today?
+	- Implement a method for reading a list of all courses from Firebase
+
+Any impediments or stumbling blocks?
+	- Other course work

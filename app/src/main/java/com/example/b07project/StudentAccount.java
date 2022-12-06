@@ -39,9 +39,4 @@ final class StudentAccount extends Account implements Student {
     public void removeCourse(String course) {
         courses.remove(course);
     }
-
-    @Override
-    public void generateCourseTimeline(List<String> courses) {
-        // TODO
-    }
 }

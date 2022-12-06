@@ -161,6 +161,11 @@ public final class StudentModuleCommunicator {
         return StudentModuleCommunicator.sortedAllCoursesArray;
     }
 
+    public void forceClearFutureCoursesArray() {
+        StudentModuleCommunicator.futureCoursesArray.clear();
+        modularSync();
+    }
+
     public void updateDataBase() {
         ArrayList<String> studentCourses = new ArrayList<>();
         for (Course course:sortedStudentCoursesArray) {

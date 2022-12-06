@@ -63,6 +63,7 @@ public class StudentCoursesTabFragment extends Fragment {
         if (!comm.getSortedStudentCoursesArray().contains(newCourse)) {
             Log.i("addCourse", "passed if");
             comm.addCourseToSortedStudentCourses(newCourse);
+            comm.forceClearFutureCoursesArray();
             com.example.b07project.StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
             com.example.b07project.StudentTimelineTabFragment.forceTimelineListViewReset = true;
             visuallyAdjustCoursesTab();
@@ -76,7 +77,7 @@ public class StudentCoursesTabFragment extends Fragment {
                 if (comm.getFutureCoursesArray().contains(promptedCourse)) {
                     comm.alterCourseStateInFutureCourses(promptedCourse);
                 }
-
+                comm.forceClearFutureCoursesArray();
                 com.example.b07project.StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
                 com.example.b07project.StudentTimelineTabFragment.forceTimelineListViewReset = true;
                 visuallyAdjustCoursesTab();
@@ -153,6 +154,7 @@ public class StudentCoursesTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 comm.updateDataBase();
+                comm.forceClearFutureCoursesArray();
                 com.example.b07project.StudentExplorerTabFragment.forceFutureCoursesListViewReset = true;
                 com.example.b07project.StudentTimelineTabFragment.forceTimelineListViewReset = true;
                 visuallyAdjustCoursesTab();

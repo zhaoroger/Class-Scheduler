@@ -10,6 +10,4 @@ public interface Student {
     public void addCourse(String course);
 
     public void removeCourse(String course);
-
-    public void generateCourseTimeline(List<String> courses);
 }

@@ -33,3 +33,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Nothing
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- fixed the UI problem
+
+What are you planning on doing today?
+	- try to integrate firebase to the StudentACtivity
+
+Any impediments or stumbling blocks?
+	- I don't know how to use Callbacks

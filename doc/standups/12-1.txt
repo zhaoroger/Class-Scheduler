@@ -20,3 +20,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- unsure why my module is unable to write to database
+	
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Finished add window
+	
+What are you planning on doing today?
+	- Nothing
+	
+Any impediments or stumbling blocks?
+	- Other coursework

@@ -13,7 +13,7 @@ Any impediments or stumbling blocks?
 Name: Victor Yeung
 
 What have you done since yesterday?
-	- nothing
+	- refactored my code to conform to MVP
 
 What are you planning on doing today?
 	- bug fixing and implementing functionality using methods from realtime databse

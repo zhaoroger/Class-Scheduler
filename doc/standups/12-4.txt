@@ -12,3 +12,17 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Other course work
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- managed to fix reading and write bug
+	- register is now able to create new users and write them to the database
+	- login is now able to ensure the wrong type of user cannot login to the wrong type of account
+
+What are you planning on doing today?
+	- start integrating my code with the other modules
+
+Any impediments or stumbling blocks?
+	- merging is super hard

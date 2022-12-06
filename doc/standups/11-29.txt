@@ -10,3 +10,14 @@ What are you planning on doing today?
 Any impediments or stumbling blocks?
 	- Nothing
 
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- added some condition checking for login
+
+What are you planning on doing today?
+	- nothing
+
+Any impediments or stumbling blocks?
+	- other course work

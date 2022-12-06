@@ -33,5 +33,16 @@ What have you done since yesterday?
 What are you planning on doing today?
 	- Implement a method for reading a list of all courses from Firebase
 
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Nothing
+
+What are you planning on doing today?
+	- Create as much of the UI as I can
+
+Any impediments or stumbling blocks?
+	- Need to learn some stuff with how RecyclerViews work
+
 Any impediments or stumbling blocks?
 	- Other course work

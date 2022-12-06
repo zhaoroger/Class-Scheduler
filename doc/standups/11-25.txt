@@ -1,4 +1,5 @@
 Name: Roger Zhao
+
 What have you done since yesterday?
 	- Finished main activity UI with RecyclerView
 

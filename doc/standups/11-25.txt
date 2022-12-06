@@ -1,6 +1,12 @@
 Roger Zhao
--Home wifi down. Ability to work is limited
+What have you done since yesterday?
+	- Finished main activity UI with RecyclerView
 
+What are you planning on doing today?
+	- Nothing, home wifi down which makes it difficult to look things up
+
+Any impediments or stumbling blocks?
+	- Home wifi down
 
 Name: Pejvak Javaheri
 

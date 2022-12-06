@@ -25,3 +25,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- first time using these methods so they are a little confusing to integrate into my module
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Changed UI a bit to clean it up. Modified the formatting for the RecyclerView cards
+
+What are you planning on doing today?
+	- Nothing
+
+Any impediments or stumbling blocks?
+	- Other Courses

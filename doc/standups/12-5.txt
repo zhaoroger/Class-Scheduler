@@ -24,3 +24,14 @@ What are you planning on doing today?
 Any impediments or stumbling blocks?
 	- merging is still super hard
 	- so many bugs
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Project semi-functions. Admin window works as desired with rest of project
+
+What are you planning on doing today?
+	- Clean up submition, help other group members, and submit
+
+Any impediments or stumbling blocks?
+	- A 5th member would be really helpful

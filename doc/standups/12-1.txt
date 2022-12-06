@@ -31,3 +31,15 @@ What are you planning on doing today?
 	
 Any impediments or stumbling blocks?
 	- Other coursework
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- made some progress in firebase integration
+
+What are you planning on doing today?
+	- nothing
+
+Any impediments or stumbling blocks?
+	- other course work

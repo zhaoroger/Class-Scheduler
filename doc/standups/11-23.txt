@@ -35,3 +35,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other course work
+	
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Started UI
+	- Figured out what components I will likely need (RecyclerView)
+
+What are you planning on doing today?
+	- Nothing
+
+Any impediments or stumbling blocks?
+	- Other course work

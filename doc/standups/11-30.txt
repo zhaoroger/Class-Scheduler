@@ -24,7 +24,7 @@ Any impediments or stumbling blocks?
 Name: Roger Zhao
 
 What have you done since yesterday?
-	- Added edit window functionality. Able to edit existing courses in the list
+	- Added edit window functionality. Able to edit existing courses in the list and delete them. Started add window functionality by duplicating edit window since they will be similar
 
 What are you planning on doing today?
 	- Complete add window functionality

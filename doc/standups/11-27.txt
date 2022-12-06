@@ -41,7 +41,7 @@ What have you done since yesterday?
 	- Wifi came back in the evening, added the UI and button functionality for Edit Window
 
 What are you planning on doing today?
-	- Add the add window functionality
+	- Add the add window UI and button functionality
 
 Any impediments or stumbling blocks?
 	- Nothing

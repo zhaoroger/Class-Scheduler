@@ -13,4 +13,4 @@ Friday: 10:00-10:15 am
 
 Version control:
 GitHub
-https://github.com/Munchypotato/B07-Lab
+https://github.com/Munchypotato/B07-Project

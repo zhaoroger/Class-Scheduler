@@ -1,1 +1,10 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Integrate my code with the Admin module
+
+What are you planning on doing today?
+	- Figure out why I can’t connect to Firebase
+
+Any impediments or stumbling blocks?
+	- As of today I can no longer read or write data to Firebase. My code is correct, the project is connected to Firebase, read/write permissions are set up correctly, and I have not changed any settings. I’m not sure why my code suddenly stopped working.

@@ -21,3 +21,16 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Nothing
+
+Name: Roger Zhao
+
+What have you done since yesterday?
+	- Changed Edit window into being a completely new activity rather than overlaying on the main activity
+	- Added Add window
+	- Finished Admin UI
+
+What are you planning on doing today?
+	- Nothing
+
+Any impediments or stumbling blocks?
+	- Other courses

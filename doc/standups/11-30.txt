@@ -8,3 +8,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- I can’t figure out how to run a Driver.java file to test my work. I do not have an Android project to run in Android Studio, and I cannot compile my code in other IDEs because they don’t support Firebase.
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- nothing
+
+What are you planning on doing today?
+	- bug fixing and implementing functionality using methods from realtime databse
+
+Any impediments or stumbling blocks?
+	- other course work

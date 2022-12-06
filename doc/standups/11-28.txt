@@ -8,3 +8,16 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- other course work
+
+
+
+Name: Hangyu Zhu
+
+What have you done since yesterday?
+	- Implement addStudent and addAdmin in RealtimeDatabase.java
+
+What are you planning on doing today?
+	- Refactor RealtimeDatabase methods to write Student, Admin, Course to Firebase as objects, instead of writing the individual fields of each object separately
+
+Any impediments or stumbling blocks?
+	- Nothing

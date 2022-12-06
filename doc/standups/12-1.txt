@@ -8,3 +8,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- I was able to run a Driver.java file in Android Studio to test my code, but re-compiling the code after running it for the first time had no effect. Android Studio kept running an old version of my code, it seemed that none of my new changes got compiled.
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- worked on realtime database functionality within the login module
+
+What are you planning on doing today?
+	- continue working on realtime database functionality
+
+Any impediments or stumbling blocks?
+	- unsure why my module is unable to write to database

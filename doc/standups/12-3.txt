@@ -36,3 +36,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Other Courses
+	
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- found a way to initialize StudenCommunicatorModule in callbacks
+
+What are you planning on doing today?
+	- Nothin
+
+Any impediments or stumbling blocks?
+	- presentation for other course

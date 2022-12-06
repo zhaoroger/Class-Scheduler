@@ -24,11 +24,12 @@ public class LoginPresenter implements Contract.Presenter {
     @Override
     public void Authenticate() {
         String validEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        final String[] uid = new String[1];
-        String username = view.getUsername();
+        final String username[] = new String[2];
+        username[0] = view.getUsername();
+        username[1] = username[0].substring(0, username[0].indexOf("."));
         String password = view.getPassword();
 
-        if(!username.matches(validEmail)){
+        if(!username[0].matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
         } else if (password.isEmpty()) {
             view.Password.setError("Please enter a valid password");
@@ -38,17 +39,16 @@ public class LoginPresenter implements Contract.Presenter {
             view.progress.setCanceledOnTouchOutside(false);
             view.progress.show();
 
-            view.auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            view.auth.signInWithEmailAndPassword(username[0], password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     view.auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
 
                         @Override
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                            System.out.println("UID: "+ uid[0]);
-                            System.out.println("username : "+username);
-                            uid[0] = view.auth.getCurrentUser().getUid();
-                            model.loginStudent(uid[0], new LoginCallback() {
+                            System.out.println("UID: "+ username[1]);
+                            System.out.println("username : "+ username[0]);
+                            model.loginStudent(username[1], new LoginCallback() {
                                 @Override
                                 public void onCallback(boolean loggedIn) {
                                     if (task.isSuccessful() && loggedIn && !view.isAdmin.isChecked()) {
@@ -71,7 +71,7 @@ public class LoginPresenter implements Contract.Presenter {
                                         });
                                         // username of the authenticated student should be passed to
                                         // this call: here, I assumed uid[0] contains the username
-                                        RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
+                                        RealtimeDatabase.getStudentAccount(username[1], new GetStudentAccountCallback() {
                                             @Override
                                             public void onCallback(StudentAccount studentAccount) {
                                                 System.out.println("initializing the student profile courses");
@@ -90,7 +90,7 @@ public class LoginPresenter implements Contract.Presenter {
                                     }
                                 }
                             });
-                            model.loginAdmin(uid[0], new LoginCallback() {
+                            model.loginAdmin(username[1], new LoginCallback() {
                                 @Override
                                 public void onCallback(boolean loggedIn) {
                                     view.progress.dismiss();

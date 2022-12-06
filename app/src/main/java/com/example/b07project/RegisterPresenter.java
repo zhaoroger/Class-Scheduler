@@ -23,8 +23,9 @@ public class RegisterPresenter implements Contract.Presenter {
 
     @Override
     public void Authenticate(){
-        String username = view.getUsername();
-        final String[] uid = new String[1];
+        final String username[] = new String[2];
+        username[0] = view.getUsername();
+        username[1] = username[0].substring(0, username[0].indexOf("."));
         String password = view.getPassword();
         String cPassword = view.ConfirmPassword.getText().toString();
         String Name = view.name.getText().toString();
@@ -33,9 +34,9 @@ public class RegisterPresenter implements Contract.Presenter {
         List<String> courses = new ArrayList<String>();
         courses.add("CSCA08");
 
-        if (!username.matches(validEmail)){
+        if (!username[0].matches(validEmail)){
             view.Username.setError("Please enter a valid e-mail address");
-        } else if (password.isEmpty() || username.isEmpty() || cPassword.isEmpty() || Name.isEmpty()){
+        } else if (password.isEmpty() || username[0].isEmpty() || cPassword.isEmpty() || Name.isEmpty()){
             view.Password.setError("Please fill out all fields");
         } else if (!password.equals(cPassword)) {
             view.ConfirmPassword.setError("Passwords do not match.");
@@ -47,7 +48,7 @@ public class RegisterPresenter implements Contract.Presenter {
             view.progress.setCanceledOnTouchOutside(false);
             view.progress.show();
 
-            view.auth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            view.auth.createUserWithEmailAndPassword(username[0], password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
@@ -55,12 +56,11 @@ public class RegisterPresenter implements Contract.Presenter {
                         view.auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                             @Override
                             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                                uid[0] = view.user.getUid();
                                 if (view.isAdmin.isChecked()) {
-                                    RealtimeDatabase.addAdmin(new AdminAccount(uid[0], password, Name));
+                                    RealtimeDatabase.addAdmin(new AdminAccount(username[1], password, Name));
                                     view.sendToAdminAcct();
                                 } else {
-                                    RealtimeDatabase.addStudent(new StudentAccount(uid[0], password, Name, courses));
+                                    RealtimeDatabase.addStudent(new StudentAccount(username[1], password, Name, courses));
                                     System.out.println("Started to switch to the student activity");
                                     // ~~~~~~~~~~~~ Switching to StudentActivity ~~~~~~~~~~~~~~~~
                                     // ~~~~~~~~~~~~~~ begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,7 +79,7 @@ public class RegisterPresenter implements Contract.Presenter {
                                     });
                                     // username of the authenticated student should be passed to
                                     // this call: here, I assumed uid[0] contains the username
-                                    RealtimeDatabase.getStudentAccount(uid[0], new GetStudentAccountCallback() {
+                                    RealtimeDatabase.getStudentAccount(username[1], new GetStudentAccountCallback() {
                                         @Override
                                         public void onCallback(StudentAccount studentAccount) {
                                             System.out.println("initializing the student profile courses");

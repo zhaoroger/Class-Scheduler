@@ -17,7 +17,7 @@ What have you done since yesterday?
 	- added some condition checking for login
 
 What are you planning on doing today?
-	- nothing
+	- refactor the login module to conform to MVP
 
 Any impediments or stumbling blocks?
 	- other course work

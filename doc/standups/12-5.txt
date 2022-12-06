@@ -35,3 +35,15 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- A 5th member would be really helpful
+
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- i finnaly imported datadinding using gradle dependencie
+
+What are you planning on doing today?
+	- fix the activity switching
+
+Any impediments or stumbling blocks?
+	- StudentCommunicatorModule get bad initialization parameters

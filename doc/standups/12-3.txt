@@ -12,3 +12,16 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Other course work
+
+
+Name: Victor Yeung
+
+What have you done since yesterday?
+	- debugged more of my code
+	- looked up possible solutions to why i was unable to write to the database
+
+What are you planning on doing today?
+	- make use of some new methods that should allow me to read from database properly
+
+Any impediments or stumbling blocks?
+	- first time using these methods so they are a little confusing to integrate into my module

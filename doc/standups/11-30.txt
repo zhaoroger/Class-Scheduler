@@ -1,1 +1,10 @@
+Name: Hangyu Zhu
 
+What have you done since yesterday?
+	- Attempt to test my code
+
+What are you planning on doing today?
+	- Debug getAllCourses method (keeps returning an empty list)
+
+Any impediments or stumbling blocks?
+	- I can’t figure out how to run a Driver.java file to test my work. I do not have an Android project to run in Android Studio, and I cannot compile my code in other IDEs because they don’t support Firebase.

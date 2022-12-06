@@ -16,10 +16,17 @@ Course Code
 Prereqs
 Sessions
 
-1/4: Login UI/Backend 2, 
+1/4: Login UI/Backend 3, 
 Signup UI/Backend 2 - Victor
 2x for Student and Admin and Courses Backend 2 - Hangyu
 2: (Backend) - Later, Student UI 3  - Pejvak
 
 
 5: (Backend) - Later, Admin UI 3 - Roger
+
+working agreement:
+standups via discord based on agreed times
+update on progress in the given format and document it
+
+definition of done:
+when the section works as intended and satisfies the corresponding user stories

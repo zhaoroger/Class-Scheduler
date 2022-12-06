@@ -34,3 +34,14 @@ What are you planning on doing today?
 
 Any impediments or stumbling blocks?
 	- Other courses
+
+Name: Pejvak Javaheri
+
+What have you done since yesterday?
+	- I found a bug on the explorer UI
+
+What are you planning on doing today?
+	- find a work around
+
+Any impediments or stumbling blocks?
+	- binding not accessible from other fragments
